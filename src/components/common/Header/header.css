@@ -34,3 +34,9 @@
     border-radius: 50%;
     border: 2px solid #f2f2f2;
 }
+
+.custom-avatar {
+    background: #800080;
+    background: -webkit-linear-gradient(to right, #ffc0cb, #800080);
+    background: linear-gradient(to right, #ffc0cb, #800080);
+}

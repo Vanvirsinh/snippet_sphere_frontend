@@ -48,7 +48,7 @@ function Hero() {
               </h1>
               <div className="custom-snippet-parent">
                 <div className="bg-secondary rounded-md">
-                  <img src={codeSnippet} s alt="code-snippet-demo" />
+                  <img src={codeSnippet} alt="code-snippet-demo" />
                 </div>
               </div>
               <div>
