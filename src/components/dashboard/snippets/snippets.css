@@ -1,0 +1,22 @@
+.linear-gradient-button {
+    height: fit-content;
+    display: inline-block;
+    border-radius: 5px;
+    padding: 1px;
+    background: #800080;
+    background: -webkit-linear-gradient(to right, #ffc0cb, #800080);
+    background: linear-gradient(to right, #ffc0cb, #800080);
+}
+
+.button-gradient {
+    padding: 15px 20px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.button-dark {
+    background: #1c1c1c;
+    padding: 15px 20px;
+    display: inline-block;
+    border-radius: 5px;
+}

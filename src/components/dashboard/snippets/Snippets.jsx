@@ -1,13 +1,11 @@
 import React from "react";
-import { useParams, useOutletContext } from "react-router-dom";
-import Overview from "./Overview";
+import { useOutletContext } from "react-router-dom";
 
-function Dashboard() {
-  const { username } = useParams();
+function Snippets() {
   const outLetProps = useOutletContext();
 
   const style = {
-    position: 'absolute',
+    position: "absolute",
     height: `calc(100vh - ${outLetProps.height}px)`,
     width: `calc(100vw - ${outLetProps.width}px)`,
     top: `${outLetProps.height}px`,
@@ -16,11 +14,13 @@ function Dashboard() {
 
   return (
     <>
-      <div style={style} className="bg-primary">
-        <Overview username={username} />
+      <div style={style} className="bg-primary overflow-auto">
+        <div className="p-6">
+            <h1>All Snippets</h1>
+        </div>
       </div>
     </>
   );
 }
 
-export default Dashboard;
+export default Snippets;

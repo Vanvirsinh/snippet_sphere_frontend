@@ -8,8 +8,14 @@ import Features from "./components/pages/home/Features";
 import Login from "./components/pages/login/Signin";
 import Signup from "./components/pages/login/Signup";
 import OTP from "./components/pages/login/OTP";
+import Collection from "./components/dashboard/collection/Collection";
+import SpecificCollection from "./components/dashboard/collection/snippets/SpecificCollection";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import IndSnippet from "./components/dashboard/snippets/IndSnippet";
+import Snippets from "./components/dashboard/snippets/Snippets";
+import CreateSnippet from "./components/dashboard/snippets/CreateSnippet";
+import UpdateSnippet from "./components/dashboard/snippets/UpdateSnippet";
 
 const router = createBrowserRouter([
   {
@@ -53,10 +59,49 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: '',
-        element: <Dashboard />
-      }
-    ]
+        path: "",
+        element: <Dashboard />,
+      },
+      {
+        path: "collection",
+        children: [
+          {
+            path: "",
+            element: <Collection />,
+          },
+          {
+            path: ":collectionId",
+            element: <SpecificCollection />,
+          },
+        ],
+      },
+      {
+        path: "snippets",
+        children: [
+          {
+            path: "",
+            element: <Snippets />,
+          },
+          {
+            path: "new",
+            element: <CreateSnippet />,
+          },
+          {
+            path: ":snippetId",
+            children: [
+              {
+                path: "",
+                element: <IndSnippet />,
+              },
+              {
+                path: "update",
+                element: <UpdateSnippet />,
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 ]);
 

@@ -38,7 +38,7 @@ function Sidebar({ navbarHeight, findSidebarWidth }) {
               <ul>
                 <li>
                   <NavLink
-                    to="/vanvirsinh"
+                    to="/overview"
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-light-purple bg-primary" : "text-white"
@@ -51,7 +51,7 @@ function Sidebar({ navbarHeight, findSidebarWidth }) {
                 </li>
                 <li>
                   <NavLink
-                    to="/collection"
+                    to="/vanvirsinh/collection"
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-light-purple bg-primary" : "text-white"
@@ -64,7 +64,7 @@ function Sidebar({ navbarHeight, findSidebarWidth }) {
                 </li>
                 <li>
                   <NavLink
-                    to="/snippets"
+                    to="/vanvirsinh/snippets"
                     className={({ isActive }) =>
                       `${
                         isActive ? "text-light-purple bg-primary" : "text-white"
