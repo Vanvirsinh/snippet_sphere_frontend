@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../../redux/auth/actions/userAction";
-import { AlertBox, alertStyle } from "../../Alert/Alert";
+import { forgetPassword } from "../../../redux/auth/actions/userAction";
 import CircularProgress from "@mui/material/CircularProgress";
-import Cookies from 'js-cookie';
+import { Alert } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 function useRefsArray() {
   return [
@@ -18,43 +18,38 @@ function useRefsArray() {
   ];
 }
 
-function OTP() {
+function OTPForgetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const state = useSelector((state) => state.user);
+  const sendOtpForgetPasswordData = useSelector(
+    (state) => state.user.sendOtpForgetPassword
+  );
+  const forgetPasswordData = useSelector((state) => state.user.forgetPassword);
   const inputRefs = useRefsArray();
 
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]);
 
   // Error Handling
   const [errors, setErrors] = useState(null);
+
+  const { isLoading, response } = forgetPasswordData;
+
   useEffect(() => {
-    if(!state.otp.user) {
-      navigate('/auth/sign-in');
+    if (!sendOtpForgetPasswordData.response) {
+      navigate("/auth/forget-password");
     }
 
-    if (state.user.response) {
-      if (state.user.response.success) {
+    if (!isLoading && response) {
+      if (response.success) {
         setErrors(null);
-        Cookies.set('user-token', state.user.response.token, { expires: 30 });
-        window.location.assign('/');
-      }
-
-      if (!state.user.response.success) {
-        if (state.user.response.errors) {
-          setErrors(state.response.errors);
-          setTimeout(() => {
-            setErrors(null);
-          }, 3000);
-        } else {
-          setErrors([{ msg: state.user.response.message }]);
-          setTimeout(() => {
-            setErrors(null);
-          }, 3000);
-        }
+        navigate("/auth/sign-in");
+      } else {
+        response.errors
+          ? setErrors(response.errors)
+          : setErrors([{ msg: response.message }]);
       }
     }
-  }, [state, navigate]);
+  }, [isLoading, response, sendOtpForgetPasswordData, navigate]);
 
   useEffect(() => {
     const handleInput = (index) => {
@@ -118,20 +113,20 @@ function OTP() {
     const isAllFieldsFilled = inputValues.every((value) => value.length === 1);
     if (isAllFieldsFilled) {
       const userOtp = inputValues.join("");
-      if (state.otp.user) {
+      const { user } = sendOtpForgetPasswordData.response;
+      if (user) {
         const data = {
-          name: state.otp.user.name,
-          username: state.otp.user.username,
-          email: state.otp.user.email,
-          password: state.otp.user.password,
+          email: user.email,
+          password: user.password,
+          confirmPassword: user.confirmPassword,
           otp: userOtp,
         };
-        dispatch(registerUser(data));
+        dispatch(forgetPassword(data));
       }
     }
   };
 
-  const handleClose = () => {
+  const closeErrorDialogue = () => {
     setErrors(null);
   };
 
@@ -153,6 +148,21 @@ function OTP() {
                       Gmail
                     </Link>
                   </p>
+                  <div
+                  className={`${
+                    errors ? "" : "-z-50"
+                  } border border-white ease-in duration-700 p-5 pt-20 text-center absolute top-0 left-0 h-full w-full text-red-600 bg-primary/[0.7] p-2 rounded-md`}
+                >
+                  <div>
+                    <span
+                      onClick={closeErrorDialogue}
+                      className="cursor-pointer active:scale-90 bg-[#fdeded] p-[3px] pt-[2px] text-primary absolute top-5 right-5 rounded"
+                    >
+                      <CloseIcon />
+                    </span>
+                    <Alert severity="error">{errors}</Alert>
+                  </div>
+                </div>
                   <h1 className="text-4xl font-semibold text-center">
                     Confirm your email
                   </h1>
@@ -217,7 +227,7 @@ function OTP() {
                       </div>
                       <div className="text-center mt-5">
                         <div className="w-full linear-gradient-button">
-                          {state.user.isLoading ? (
+                          {isLoading ? (
                             <button
                             disabled
                               type="submit"
@@ -259,17 +269,10 @@ function OTP() {
               </div>
             </div>
           </div>
-          {errors ? (
-            <div style={alertStyle}>
-              <AlertBox handleClose={handleClose} errors={errors} />
-            </div>
-          ) : (
-            <div></div>
-          )}
         </div>
       </div>
     </>
   );
 }
 
-export default OTP;
+export default OTPForgetPassword;

@@ -52,7 +52,7 @@ function CollectionItem({ collection }) {
           <div>
             <div className="linear-gradient-button">
               <Link
-                to={`/vanvirsinh/collection/${collection.collectionId}`}
+                to={`${collection.collectionId}`}
                 className="button-dark text-sm"
                 style={{padding: '5px 10px'}}
               >

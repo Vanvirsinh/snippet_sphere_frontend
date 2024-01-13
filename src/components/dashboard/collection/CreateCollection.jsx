@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function CreateCollection({ handleClose, open, createCollection }) {
+function CreateCollection({ handleClose, open, createCollection, setCreated }) {
   const [data, setData] = useState({ name: "", isPublic: true });
 
   const collectionData = useSelector((state) => state.collection.collection);
@@ -15,10 +15,9 @@ function CreateCollection({ handleClose, open, createCollection }) {
 
   useEffect(() => {
     if (!isLoading && collection) {
-      handleClose();
       window.location.reload();
     }
-  }, [isLoading, collection, handleClose]);
+  }, [isLoading, collection, handleClose, setCreated]);
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });

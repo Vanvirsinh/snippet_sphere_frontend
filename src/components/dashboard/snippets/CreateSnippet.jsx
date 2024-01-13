@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./snippets.css";
-import { useOutletContext, useParams, useSearchParams } from "react-router-dom";
+import { Link, useOutletContext, useParams, useSearchParams } from "react-router-dom";
 import { Editor } from "@monaco-editor/react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import languages from "./languages";
@@ -117,10 +117,10 @@ function CreateSnippet() {
       <div style={style} className="bg-primary overflow-auto">
         <div className="p-6">
           <div className="flex flex-col gap-y-5">
-            <h1 className="text-white/[0.6] text-sm">
+            <Link to={`/${username}/snippets`} className="text-white/[0.6] text-sm">
               <ArrowBackIcon sx={{ fontSize: 20, mr: 1 }} />
               Back to Snippets
-            </h1>
+            </Link>
             <div className="flex flex-col gap-y-5">
               <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
                 <div className="flex flex gap-x-5 items-center">
@@ -255,7 +255,7 @@ function CreateSnippet() {
                 <div className="flex gap-x-5 items-center">
                   <span className="linear-gradient-button text-white">
                     {isLoading ? (
-                      <button className="button-gradient">
+                      <button disabled className="button-gradient">
                         <span className="px-16">
                           <CircularProgress size={20} sx={{ color: "white" }} />
                         </span>

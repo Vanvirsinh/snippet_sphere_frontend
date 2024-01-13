@@ -93,7 +93,7 @@ function Footer() {
                   Vanvirsinh Deora
                 </Link>
               </p>
-              <p className="text-sm">© 2024 Your Company Name. All rights reserved.</p>
+              <p className="text-sm">© 2024 Snippet Sphere. All rights reserved.</p>
             </div>
           </div>
         </div>

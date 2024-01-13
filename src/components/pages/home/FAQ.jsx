@@ -154,7 +154,7 @@ function FAQ() {
                 intuitive platform. Join now to streamline your workflow and
                 unleash your coding potential!
               </p>
-              <Link className="linear-gradient-button w-fit">
+              <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                 <span className="button-gradient">
                   Start Saving Your Snippets 🚀
                 </span>

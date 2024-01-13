@@ -29,8 +29,7 @@ function HeaderSidebar({ findNavbarHeight }) {
       const height = headerRef.current.clientHeight;
       findNavbarHeight(height);
     }
-
-  }, [findNavbarHeight])
+  }, [findNavbarHeight]);
 
   useEffect(() => {
     const token = Cookies.get("user-token");
@@ -49,6 +48,8 @@ function HeaderSidebar({ findNavbarHeight }) {
 
   const handleLogout = () => {
     handleCloseUserMenu();
+    Cookies.remove('user-token');
+    window.location.assign('/auth/sign-in');
   };
 
   return (
@@ -91,7 +92,7 @@ function HeaderSidebar({ findNavbarHeight }) {
                                   </div>
                                 ) : (
                                   <img
-                                    src={user.userImage}
+                                    src={`http://localhost:8000${user.userImage}`}
                                     alt={user.user.name}
                                     className="h-full w-full rounded-full"
                                   />
@@ -127,22 +128,37 @@ function HeaderSidebar({ findNavbarHeight }) {
                               </MenuItem>
                               <Divider sx={{ background: "#404040" }} />
                               <MenuItem onClick={handleCloseUserMenu}>
-                                <AccountCircleIcon
-                                  sx={{ mr: 2, fontSize: 23 }}
-                                />{" "}
-                                <Link to={`/${user.user.username}`}>
+                                <Link
+                                  className="w-full"
+                                  to={`/${user.user.username}`}
+                                >
+                                  <AccountCircleIcon
+                                    sx={{ mr: 2, fontSize: 23 }}
+                                  />{" "}
                                   My Profile
                                 </Link>
                               </MenuItem>
                               <MenuItem onClick={handleCloseUserMenu}>
-                                <SnippetFolderIcon
-                                  sx={{ mr: 2, fontSize: 23 }}
-                                />{" "}
-                                My Snippet Collections
+                                <Link
+                                  className="w-full"
+                                  to={`/${user.user.username}/collection`}
+                                >
+                                  <SnippetFolderIcon
+                                    sx={{ mr: 2, fontSize: 23 }}
+                                  />{" "}
+                                  My Snippet Collections
+                                </Link>
                               </MenuItem>
                               <MenuItem onClick={handleCloseUserMenu}>
-                                <TextSnippetIcon sx={{ mr: 2, fontSize: 23 }} />{" "}
-                                My Snippets
+                                <Link
+                                  className="w-full"
+                                  to={`/${user.user.username}/snippets`}
+                                >
+                                  <TextSnippetIcon
+                                    sx={{ mr: 2, fontSize: 23 }}
+                                  />{" "}
+                                  My Snippets
+                                </Link>
                               </MenuItem>
                               <Divider sx={{ background: "#404040" }} />
                               <MenuItem onClick={handleLogout}>

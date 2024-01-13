@@ -4,20 +4,34 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
 import ErrorIcon from "@mui/icons-material/Error";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-// import FavoriteIcon from "@mui/icons-material/Favorite";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import PushPinIcon from "@mui/icons-material/PushPin";
+import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import SnippetFolderIcon from "@mui/icons-material/SnippetFolder";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIndSnippet } from "../../../redux/snippet/snippetAction";
 import { fetchIndCollection } from "../../../redux/collection/collectionAction";
 import { Editor } from "@monaco-editor/react";
+import { fetchUserProfile } from "../../../redux/profile/profileAction";
+import { followUser } from "../../../redux/profile/profileAction";
+import Cookies from "js-cookie";
+import CircularProgress from "@mui/material/CircularProgress";
+import { getUser } from "../../../redux/auth/actions/userAction";
+import { pinSnippet } from "../../../redux/snippet/snippetAction";
+import { likeSnippet } from "../../../redux/snippet/snippetAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
 
 function IndSnippet() {
   const outLetProps = useOutletContext();
   const { username, snippetId } = useParams();
-  const [snippet, setSnippet] = useState([]);
+  const [snippet, setSnippet] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [collection, setCollection] = useState([]);
+  const [error, setError] = useState(null);
   const [copyMessage, setCopyMessage] = useState({
     text: "Copy Code",
     icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
@@ -28,10 +42,18 @@ function IndSnippet() {
   const indSnippetData = useSelector(
     (state) => state.snippet.individualSnippet
   );
+  const followUserData = useSelector((state) => state.profile.followUserData);
+  const pinSnippetData = useSelector((state) => state.snippet.pinSnippetData);
+  const likeSnippetData = useSelector((state) => state.snippet.likeSnippetData);
+  const authUser = useSelector((state) => state.user.authUser.user);
 
   useEffect(() => {
     dispatch(fetchIndSnippet({ username, snippetId }));
-  }, [dispatch, username, snippetId]);
+    const token = Cookies.get("user-token");
+    if (token) {
+      dispatch(getUser(token));
+    }
+  }, [dispatch, username, snippetId, pinSnippetData, likeSnippetData]);
 
   const { isLoading, response } = indSnippetData;
 
@@ -40,20 +62,24 @@ function IndSnippet() {
       if (response.success) {
         setSnippet(response.snippet[0]);
         dispatch(
-          fetchIndCollection({ username, collectionId: response.snippet[0].collectionId })
+          fetchIndCollection({
+            username: response.snippet[0].authorName,
+            collectionId: response.snippet[0].collectionId,
+          })
         );
+        dispatch(fetchUserProfile(response.snippet[0].authorName));
       } else {
-        setSnippet([]);
+        setSnippet(null);
       }
     }
-  }, [isLoading, response, dispatch, snippet.collectionId, username]);
+  }, [isLoading, response, dispatch, username, followUserData]);
 
   const individualCollection = useSelector(
     (state) => state.collection.individualCollection
   );
 
   useEffect(() => {
-    const {isLoading, response} = individualCollection;
+    const { isLoading, response } = individualCollection;
     if (!isLoading && response) {
       if (response.success) {
         setCollection(response.collection);
@@ -63,8 +89,33 @@ function IndSnippet() {
     }
   }, [individualCollection]);
 
+  const userProfile = useSelector((state) => state.profile.userProfile);
+
+  useEffect(() => {
+    const { isLoading, response } = userProfile;
+    if (!isLoading && response) {
+      if (response.success) {
+        setProfile(response.profile);
+      } else {
+        setProfile([]);
+      }
+    }
+  }, [userProfile]);
+
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
+  };
+
+  const handleFollow = (followUsername) => {
+    const token = Cookies.get("user-token");
+    if (token) {
+      dispatch(followUser({ username: followUsername, token }));
+    } else {
+      setError("Please, register or login before you follow!");
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
   };
 
   const handleCopy = () => {
@@ -99,6 +150,36 @@ function IndSnippet() {
     }
   };
 
+  useEffect(() => {
+    const { isLoading, response } = likeSnippetData;
+    if (!isLoading && response) {
+      if (response.success) {
+        toast.success(response.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    }
+  }, [likeSnippetData]);
+
+  const handleLikeSnippet = () => {
+    dispatch(likeSnippet(snippet._id));
+  };
+
+  useEffect(() => {
+    const { isLoading, response } = pinSnippetData;
+    if (!isLoading && response) {
+      if (response.success) {
+        toast.success(response.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    }
+  }, [pinSnippetData]);
+
+  const handlePinSnippet = () => {
+    dispatch(pinSnippet(snippet._id));
+  };
+
   const style = {
     position: "absolute",
     height: `calc(100vh - ${outLetProps.height}px)`,
@@ -111,94 +192,195 @@ function IndSnippet() {
     <>
       <div style={style} className="bg-primary overflow-auto">
         <div className="p-6">
-          <div className="text-white flex flex-col gap-y-5">
-            <div>
-              <h1>{snippet.title}</h1>
-            </div>
-            {/* Snippet */}
-            <div>
+          {snippet && (
+            <div className="text-white flex flex-col gap-y-5">
               <div>
-                <div className="rounded-t-md bg-secondary py-2 px-4 flex justify-between text-sm text-white/[0.7] items-center">
-                  <div>
-                    <Link to={`/${username}/collection/${collection.collectionId}`}>
-                      <ArrowBackIcon sx={{ fontSize: 18, mr: 1 }} />
-                      {collection.name}
-                    </Link>
-                    <span className="ml-5">{snippet.language}</span>
-                  </div>
-                  <span className="cursor-pointer" onClick={handleCopy}>
-                    {copyMessage.icon} {copyMessage.text}
-                  </span>
-                </div>
-                <div className="overflow-auto h-[440px] border-t-0 border-b-0 border-4 border-secondary">
-                  <Editor
-                    height="450px"
-                    theme="vs-dark"
-                    value={snippet.code}
-                    language={snippet.language}
-                    options={{
-                      readOnly: true,
-                    }}
-                    onMount={handleEditorDidMount}
-                    loading={<h1 className="text-white">Loading...</h1>}
-                    className="p-5 bg-[#1e1e1e]"
-                  />
-                </div>
-                <div className="rounded-b-md bg-secondary py-2 px-4 flex gap-x-6 justify-end text-sm text-white/[0.7] items-center">
-                  <span>
-                    <FavoriteBorderIcon sx={{ fontSize: 19, mr: 1 }} />{" "}
-                    {snippet.length > 0 ? snippet.likes.length : 0}
-                  </span>
-                  <span>
-                    <RemoveRedEyeIcon sx={{ fontSize: 19, mr: 1 }} />{" "}
-                    {snippet.views}
-                  </span>
-                  <span>
-                    <PushPinIcon sx={{ fontSize: 19, mr: 1 }} />
-                    Pin Snippet
-                  </span>
-                </div>
+                <Link
+                  className="text-sm text-white/[0.7]"
+                  to={`/${username}/snippets`}
+                >
+                  <ArrowBackIcon sx={{ fontSize: 18, mr: 1 }} />
+                  Back to Snippets
+                </Link>
               </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-x-5">
-                <div className="user-profile">
-                  <div className="h-full w-full rounded-full custom-avatar flex justify-center items-center">
-                    <h1 className="text-center text-xl font-semibold">V</h1>
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span>Vanvir Singh</span>
-                  <span className="text-xs text-white/[0.5]">
-                    1.5k Followers
-                  </span>
-                </div>
+              <div>
+                <h1>{snippet.title}</h1>
+              </div>
+              {/* Snippet */}
+              <div>
                 <div>
-                  <span className="linear-gradient-button active:scale-[98%]">
-                    <button
-                      style={{ padding: "8px 15px" }}
-                      className="button-dark"
-                    >
-                      Follow
-                    </button>
-                  </span>
+                  <div className="rounded-t-md bg-secondary py-2 px-4 flex justify-between text-sm text-white/[0.7] items-center">
+                    <div>
+                      <Link
+                        to={`/${username}/collection/${collection.collectionId}`}
+                      >
+                        <SnippetFolderIcon sx={{ fontSize: 18, mr: 1 }} />
+                        {collection.name}
+                      </Link>
+                      <span className="ml-5">{snippet.language}</span>
+                    </div>
+                    <span className="cursor-pointer" onClick={handleCopy}>
+                      {copyMessage.icon} {copyMessage.text}
+                    </span>
+                  </div>
+                  <div className="overflow-auto h-[440px] border-t-0 border-b-0 border-4 border-secondary">
+                    <Editor
+                      height="440px"
+                      theme="vs-dark"
+                      value={snippet.code}
+                      language={snippet.language}
+                      options={{
+                        readOnly: true,
+                      }}
+                      onMount={handleEditorDidMount}
+                      loading={<h1 className="text-white">Loading...</h1>}
+                      className="p-5 bg-[#1e1e1e]"
+                    />
+                  </div>
+                  <div className="rounded-b-md bg-secondary py-2 px-4 flex gap-x-6 justify-end text-sm text-white/[0.7] items-center">
+                    {authUser && snippet.likes.includes(authUser.user._id) ? (
+                      <span>
+                        <Tooltip title="Unlike">
+                          <IconButton className="onClick={handleLikeSnippet}">
+                            <FavoriteIcon
+                              className="cursor-pointer active:scale-110"
+                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                            {snippet.likes.length}
+                      </span>
+                    ) : (
+                      <span>
+                        <Tooltip title="Like This">
+                          <IconButton onClick={handleLikeSnippet}>
+                            <FavoriteBorderIcon
+                              className="cursor-pointer active:scale-110"
+                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                            {snippet.likes.length}
+                      </span>
+                    )}
+                    {authUser && snippet.pins.includes(authUser.user._id) ? (
+                      <span>
+                        <Tooltip title="Already Pinned">
+                          <IconButton onClick={handlePinSnippet}>
+                            <PushPinIcon
+                              className="cursor-pointer active:scale-110"
+                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        Pinned!
+                      </span>
+                    ) : (
+                      <span>
+                        <Tooltip title="Add to Pin">
+                          <IconButton onClick={handlePinSnippet}>
+                            <PushPinOutlinedIcon
+                              className="cursor-pointer active:scale-110"
+                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                            />
+                          </IconButton>
+                        </Tooltip>
+                        Pin Snippet
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* Description */}
-            <div className="bg-primary p-5 rounded-md flex flex-col gap-y-5">
               <div>
-                <h1 className="text-white/[0.7] text-sm">
-                  Created At: {snippet.createdAt}
-                </h1>
-                <h1 className="text-white/[0.7] text-sm">
-                  Updated At: {snippet.updatedAt}
-                </h1>
+                <div className="flex items-center gap-x-5">
+                  {profile && (
+                    <div className="user-profile">
+                      {profile.profilePicture !== "" ? (
+                        <Link to={`/${username}`}>
+                          <img
+                            src={`http://localhost:8000${profile.profilePicture}`}
+                            className="rounded-full h-full w-full"
+                            alt={profile.name}
+                          />
+                        </Link>
+                      ) : (
+                        <Link
+                          to={`/${username}`}
+                          className="h-full w-full rounded-full custom-avatar flex justify-center items-center"
+                        >
+                          <h1 className="text-center text-xl font-semibold">
+                            {profile.name.charAt(0)}
+                          </h1>
+                        </Link>
+                      )}
+                    </div>
+                  )}
+                  <div className="flex flex-col">
+                    <Link to={`/${username}`} className="hover:underline">
+                      {profile && profile.name}
+                    </Link>
+                    <span className="text-xs text-white/[0.5]">
+                      {profile && profile.followers.length}{" "}
+                      {profile && profile.followers.length > 1
+                        ? "followers"
+                        : "follower"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="linear-gradient-button">
+                      {followUserData.isLoading ? (
+                        <button
+                          style={{ padding: "8px 15px" }}
+                          className="button-gradient"
+                        >
+                          <span className="w-20 flex items-center justify-center">
+                            <CircularProgress
+                              size={20}
+                              sx={{ color: "white" }}
+                            />
+                          </span>
+                        </button>
+                      ) : (
+                        <div>
+                          {profile && (
+                            <button
+                              style={{ padding: "8px 15px" }}
+                              className="button-gradient"
+                              onClick={() => handleFollow(profile.username)}
+                            >
+                              <span className="w-20 flex items-center justify-center">
+                                {authUser &&
+                                profile.followers.includes(authUser.user._id)
+                                  ? "Followed"
+                                  : "Follow"}
+                              </span>
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </span>
+                  </div>
+                  {error && <p className="text-center text-red-400">{error}</p>}
+                </div>
               </div>
-              <p className="text-white/[0.7] text-sm">{snippet.description}</p>
+              {/* Description */}
+              <div className="bg-primary p-5 rounded-md flex flex-col gap-y-5">
+                <div>
+                  <h1 className="text-white/[0.7] text-sm">
+                    Created At: {snippet.createdAt}
+                  </h1>
+                  <h1 className="text-white/[0.7] text-sm">
+                    Updated At: {snippet.updatedAt}
+                  </h1>
+                </div>
+                <p className="text-white/[0.7] text-sm">
+                  {snippet.description}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
+        <ToastContainer />
       </div>
     </>
   );

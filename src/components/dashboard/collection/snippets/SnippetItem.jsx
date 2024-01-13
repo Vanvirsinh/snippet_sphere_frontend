@@ -5,8 +5,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import CollectionsIcon from "@mui/icons-material/Collections";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteSnippet from "./DeleteSnippet";
 
@@ -33,34 +31,31 @@ function SnippetItem({ snippet }) {
   };
 
   return (
-    <div className="bg-secondary rounded-md p-5">
+    <div className="relative bg-secondary rounded-md p-5">
       <Link
         to={`/${snippet.authorName}/snippets/${snippet.snippetId}`}
         className="flex items-center justify-center hover:scale-110 ease-in-out duration-300"
       >
         <img src={SnippetLogo} className="h-[150px]" alt="" />
       </Link>
-      <div className="flex justify-between mt-5 text-white items-start">
-        <div className="flex flex-col gap-y-2">
+      <div className="flex gap-x-2 justify-between mt-5 text-white items-start">
+        <div className="flex flex-col justify-center gap-y-2 w-full">
           <Link
             to={`/${snippet.authorName}/snippets/${snippet.snippetId}`}
             className="text-md hover:text-white/[0.6]"
           >
             {snippet.title}
           </Link>
-          <div className="flex text-xs justify-between items-center">
+          <div className="flex text-xs gap-x-5 items-center text-white/[0.7]">
             <span>
-              <RemoveRedEyeIcon sx={{ fontSize: 19, mr: 1 }} /> {snippet.views}
-            </span>
-            <span>
-              <FavoriteIcon sx={{ fontSize: 19, mr: 1 }} />{" "}
+              <FavoriteIcon sx={{ fontSize: 19, mr: 1 }} />
               {snippet.likes.length}
-            </span>
-            <span className="bg-primary p-1 rounded text-white/[0.6]">
-              {snippet.language}
             </span>
           </div>
         </div>
+        <span className="z-[2] text-xs absolute right-5 bottom-5 bg-primary p-1 rounded text-white/[0.6]">
+          {snippet.language}
+        </span>
         <div className="text-5xl flex rotate-180 relative">
           <Menu
             sx={{ mt: "0", ml: "30px" }}
@@ -86,16 +81,15 @@ function SnippetItem({ snippet }) {
             onClose={handleCloseUserMenu}
           >
             <MenuItem>
-              <div className="flex gap-x-2 items-center py-1 px-2 hover:bg-secondary cursor-pointer rounded">
-                <CollectionsIcon sx={{ fontSize: 20 }} />
-                Change Collection
-              </div>
-            </MenuItem>
-            <MenuItem>
-              <div className="flex gap-x-2 items-center py-1 px-2 hover:bg-secondary cursor-pointer rounded">
-                <EditIcon sx={{ fontSize: 20 }} />
-                Edit
-              </div>
+              <Link
+                className="w-full"
+                to={`/${snippet.authorName}/snippets/${snippet.snippetId}/update`}
+              >
+                <div className="flex gap-x-2 items-center w-full py-1 px-2 hover:bg-secondary cursor-pointer rounded">
+                  <EditIcon sx={{ fontSize: 20 }} />
+                  Edit
+                </div>
+              </Link>
             </MenuItem>
             <MenuItem onClick={handleClickDeleteOpen}>
               <div className="flex gap-x-2 items-center py-1 px-2 hover:bg-secondary cursor-pointer rounded">
@@ -108,7 +102,11 @@ function SnippetItem({ snippet }) {
           </span>
         </div>
       </div>
-      <DeleteSnippet handleClose={handleDeleteClose} open={deleteOpen} />
+      <DeleteSnippet
+        snippetId={snippet._id}
+        handleClose={handleDeleteClose}
+        open={deleteOpen}
+      />
     </div>
   );
 }

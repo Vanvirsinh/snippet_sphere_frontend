@@ -64,7 +64,7 @@ function Pricing() {
                 </li>
               </ul>
               <div className="mt-8">
-                <Link className="linear-gradient-button w-fit">
+                <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                       <span className="button-gradient">Get Started 🚀</span>
                     </Link>
               </div>

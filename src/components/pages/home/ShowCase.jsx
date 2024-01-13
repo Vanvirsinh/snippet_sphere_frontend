@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TurnRightIcon from "@mui/icons-material/TurnRight";
 import codeSnippet from "../../../assets/images/code-snippet-demo-3.png";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
@@ -6,6 +7,18 @@ import { Link } from "react-router-dom";
 import codeSnippet2 from "../../../assets/images/code-snippet-demo.png";
 
 function ShowCase() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/explore-snippets?page=1&search=${searchQuery}`);
+  };
+
   return (
     <>
       <div>
@@ -67,12 +80,12 @@ function ShowCase() {
                     Customizable and Convenient
                   </li>
                 </ul>
-                <form action="">
+                <form onSubmit={handleSubmit} >
                   <input
-                    className="rounded-md p-4 w-96 outline-none border border-[#303030] bg-secondary"
+                    className="rounded-md p-4 w-96 border border-[#303030] bg-secondary"
                     type="text"
                     placeholder="Search for snippets 🔎"
-                    id=""
+                    onChange={handleChange}
                   />
                 </form>
               </div>
@@ -96,7 +109,7 @@ function ShowCase() {
                   solutions among developers worldwide.
                 </p>
                 <div className="w-fit mr-auto">
-                  <Link className="linear-gradient-button">
+                  <Link to="/auth/sign-in" className="linear-gradient-button">
                     <span className="button-gradient">Get Started 🚀</span>
                   </Link>
                 </div>

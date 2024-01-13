@@ -13,7 +13,15 @@ function Collection() {
   const { username } = useParams();
   const [open, setOpen] = useState(false);
   const [collections, setCollections] = useState([]);
+  const [searchCollection, setSearchCollections] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchUserSpecCollection(username));
+  }, [dispatch, username]);
+
   const collectionData = useSelector(
     (state) => state.collection.userSpecCollection
   );
@@ -28,21 +36,35 @@ function Collection() {
     }
   }, [collection, isLoading]);
 
-  useEffect(() => {
-    dispatch(fetchUserSpecCollection(username));
-  }, [dispatch, username]);
-
   const handleClickOpen = () => {
+    console.log("open");
     setOpen(true);
   };
 
   const handleClose = () => {
+    console.log("close");
     setOpen(false);
   };
 
   const handleCreateCollection = (data) => {
     dispatch(createCollection(data));
   };
+
+  const handleChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  useEffect(() => {
+    const filteredCollections = collections.filter(collection =>
+      collection.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setSearchCollections(filteredCollections);
+  }, [searchQuery, collections]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
 
   const outLetProps = useOutletContext();
   const style = {
@@ -55,21 +77,26 @@ function Collection() {
 
   return (
     <>
-      <div style={style} className="bg-primary overflow-auto">
+      <div
+        style={style}
+        className="ease-in-out duration-100 bg-primary overflow-auto"
+      >
         <div className="p-6">
           <div className="flex flex-col gap-y-5">
             <div>
               <h1 className="text-white text-xl">View Collections</h1>
             </div>
             <div className="flex justify-between items-center">
-              <form action="" className="flex">
+              <form onSubmit={handleSubmit} className="flex">
                 <input
-                  type="text"
+                  name="search"
+                  onChange={handleChange}
+                  type="search"
+                  autoComplete="off"
                   placeholder="Search across collections"
                   className="text-white px-3 py-2 w-96 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
                 />
                 <button
-                  type="submit"
                   className="px-3 py-2 bg-primary rounded-r-md border-2 border-[#232323] border-l-0"
                 >
                   <SearchIcon sx={{ color: "#f2f2f2" }} />
@@ -91,13 +118,16 @@ function Collection() {
               </div>
             ) : (
               <div>
-                {collections && collections.length > 0 ? (
+                {searchCollection && searchCollection.length > 0 ? (
                   <div className="grid grid-cols-3 gap-5">
-                    {collections.slice().reverse().map((collection, index) => {
-                      return (
-                        <CollectionItem collection={collection} key={index} />
-                      );
-                    })}
+                    {searchCollection
+                      .slice()
+                      .reverse()
+                      .map((collection, index) => {
+                        return (
+                          <CollectionItem collection={collection} key={index} />
+                        );
+                      })}
                   </div>
                 ) : (
                   <div className="p-32 flex flex-col justify-center items-center gap-y-10 w-full h-full">

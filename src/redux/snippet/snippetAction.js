@@ -24,17 +24,27 @@ export const createSnippet = createAsyncThunk(
 export const updateSnippet = createAsyncThunk(
   "updateSnippet",
   async ({ snippetId, data }) => {
-    const response = await fetch(
-      `${host}/api/snippet/update/${snippetId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-type": "application/json",
-          "auth-token": Cookies.get("user-token"),
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch(`${host}/api/snippet/update/${snippetId}`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        "auth-token": Cookies.get("user-token"),
+      },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  }
+);
+
+export const deleteSnippet = createAsyncThunk(
+  "deleteSnippet",
+  async (snippetId) => {
+    const response = await fetch(`${host}/api/snippet/delete/${snippetId}`, {
+      method: "DELETE",
+      headers: {
+        "auth-token": Cookies.get("user-token"),
+      },
+    });
     return response.json();
   }
 );
@@ -55,6 +65,19 @@ export const fetchCollectionSpecSnippet = createAsyncThunk(
   }
 );
 
+export const fetchUserSpecSnippet = createAsyncThunk(
+  "fetchUserSpecSnippet",
+  async (username) => {
+    const token = Cookies.get("user-token");
+    const headers = token ? { "auth-token": token } : {};
+    const response = await fetch(`${host}/api/snippet/${username}`, {
+      method: "GET",
+      headers,
+    });
+    return response.json();
+  }
+);
+
 export const fetchIndSnippet = createAsyncThunk(
   "fetchIndSnippet",
   async ({ username, snippetId }) => {
@@ -70,3 +93,52 @@ export const fetchIndSnippet = createAsyncThunk(
     return response.json();
   }
 );
+
+export const fetchAllSnippets = createAsyncThunk(
+  "fetchAllSnippets",
+  async ({ page, query }) => {
+    const response = await fetch(
+      `${host}/api/snippet?page=${page}&search=${query}`,
+      {
+        method: "GET",
+      }
+    );
+    return response.json();
+  }
+);
+
+export const fetchPinnedSnippets = createAsyncThunk(
+  "fetchPinnedSnippets",
+  async ({ username }) => {
+    const token = Cookies.get("user-token");
+    const headers = token ? { "auth-token": token } : {};
+    const response = await fetch(
+      `${host}/api/snippet/pinned-snippets/${username}`,
+      {
+        method: "GET",
+        headers
+      }
+    );
+    return response.json();
+  }
+);
+
+export const pinSnippet = createAsyncThunk("pinSnippet", async (snippetId) => {
+  const token = Cookies.get("user-token");
+  const headers = token ? { "auth-token": token } : {};
+  const response = await fetch(`${host}/api/pin/${snippetId}`, {
+    method: "POST",
+    headers,
+  });
+  return response.json();
+});
+
+export const likeSnippet = createAsyncThunk("likeSnippet", async (snippetId) => {
+  const token = Cookies.get("user-token");
+  const headers = token ? { "auth-token": token } : {};
+  const response = await fetch(`${host}/api/like/${snippetId}`, {
+    method: "POST",
+    headers,
+  });
+  return response.json();
+});

@@ -27,7 +27,8 @@ function UpdateCollection({ handleClose, open, collection }) {
   useEffect(() => {
     if (!isLoading && response) {
       if (response.success) {
-        handleClose();
+        // handleClose();
+        // setUpdated("updated");
         window.location.reload();
       } else {
         setError(response.message || "Something Went Wrong!");

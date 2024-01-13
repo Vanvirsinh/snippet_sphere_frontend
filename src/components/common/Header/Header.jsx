@@ -41,6 +41,8 @@ function Header() {
 
   const handleLogout = () => {
     handleCloseUserMenu();
+    Cookies.remove('user-token');
+    window.location.assign('/auth/sign-in');
   };
 
   return (
@@ -66,12 +68,12 @@ function Header() {
                   </li>
                   <li>
                     <NavLink
-                      to="/about"
+                      to="/pricing"
                       className={({ isActive }) =>
                         `${isActive ? "text-white font-semibold" : ""}`
                       }
                     >
-                      About
+                      Pricing
                     </NavLink>
                   </li>
                   <li>
@@ -85,28 +87,28 @@ function Header() {
                     </NavLink>
                   </li>
                   <li>
+                    <NavLink
+                      to="/explore-snippets"
+                      className={({ isActive }) =>
+                        `${isActive ? "text-white font-semibold" : ""}`
+                      }
+                    >
+                      Explore Snippets
+                    </NavLink>
+                  </li>
+                  <li>
                     <NavLink to="https://codemafias.com/" target="_blank">
                       Blog
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      to="/documentation"
+                      to="/faqs"
                       className={({ isActive }) =>
                         `${isActive ? "text-white font-semibold" : ""}`
                       }
                     >
-                      Documentation
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      to="/contact"
-                      className={({ isActive }) =>
-                        `${isActive ? "text-white font-semibold" : ""}`
-                      }
-                    >
-                      Contact
+                      FAQs
                     </NavLink>
                   </li>
                 </ul>
@@ -142,7 +144,7 @@ function Header() {
                                 </div>
                               ) : (
                                 <img
-                                  src={user.userImage}
+                                  src={`http://localhost:8000${user.userImage}`}
                                   alt={user.user.name}
                                   className="h-full w-full rounded-full"
                                 />
@@ -178,16 +180,35 @@ function Header() {
                             </MenuItem>
                             <Divider sx={{ background: "#404040" }} />
                             <MenuItem onClick={handleCloseUserMenu}>
-                              <AccountCircleIcon sx={{ mr: 2, fontSize: 23 }} />{" "}
-                              <Link to={`/${user.user.username}`}>My Profile</Link>
+                              <Link
+                                className="w-full"
+                                to={`/${user.user.username}`}
+                              >
+                                <AccountCircleIcon
+                                  sx={{ mr: 2, fontSize: 23 }}
+                                />{" "}
+                                My Profile
+                              </Link>
                             </MenuItem>
                             <MenuItem onClick={handleCloseUserMenu}>
-                              <SnippetFolderIcon sx={{ mr: 2, fontSize: 23 }} />{" "}
-                              My Snippet Collections
+                              <Link
+                                className="w-full"
+                                to={`/${user.user.username}/collection`}
+                              >
+                                <SnippetFolderIcon
+                                  sx={{ mr: 2, fontSize: 23 }}
+                                />{" "}
+                                My Snippet Collections
+                              </Link>
                             </MenuItem>
                             <MenuItem onClick={handleCloseUserMenu}>
-                              <TextSnippetIcon sx={{ mr: 2, fontSize: 23 }} />{" "}
-                              My Snippets
+                              <Link
+                                className="w-full"
+                                to={`/${user.user.username}/snippets`}
+                              >
+                                <TextSnippetIcon sx={{ mr: 2, fontSize: 23 }} />{" "}
+                                My Snippets
+                              </Link>
                             </MenuItem>
                             <Divider sx={{ background: "#404040" }} />
                             <MenuItem onClick={handleLogout}>

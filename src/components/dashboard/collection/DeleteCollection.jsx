@@ -21,7 +21,8 @@ function DeleteCollection({ handleClose, open, collection }) {
   useEffect(() => {
     if (!isLoading && response) {
       if (response.success) {
-        handleClose();
+        // handleClose();
+        // setDeleted("deleted");
         window.location.reload();
       } else {
         setError(response.message || "Something Went Wrong!");
@@ -97,7 +98,7 @@ function DeleteCollection({ handleClose, open, collection }) {
             </Button>
             {isLoading ? (
               <Button sx={{ background: "#cc3300", color: "#f2f2f2" }} disabled>
-                  <CircularProgress size={20} sx={{ color: "white" }} />
+                <CircularProgress size={20} sx={{ color: "white" }} />
               </Button>
             ) : (
               <Button

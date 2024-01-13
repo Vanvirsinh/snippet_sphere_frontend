@@ -6,7 +6,11 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import codeSnippet from "../../../assets/images/code-snippet-demo.png";
+import SignIn from "../../../assets/images/sign-in.png";
+import CreateCollections from "../../../assets/images/create-collections.png";
+import StoreSnippets from "../../../assets/images/store-snippets.png";
+import Contribute from "../../../assets/images/contribution-open-source.png";
+import StoreAndAccess from "../../../assets/images/store-and-access.png";
 import { Link } from "react-router-dom";
 
 function HowItWorks() {
@@ -25,7 +29,7 @@ function HowItWorks() {
               <TimelineItem>
                 <TimelineOppositeContent sx={{ py: 0 }}>
                   <div className="py-10">
-                    <img src={codeSnippet} alt="" />
+                    <img className="border-2 rounded-md border-[#303030]" src={SignIn} alt="" />
                   </div>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
@@ -33,14 +37,14 @@ function HowItWorks() {
                   <TimelineConnector sx={{ backgroundColor: "#ffc0cb" }} />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <div className="flex flex-col gap-y-5 justify-center h-full">
+                  <div className="font-poppins flex flex-col gap-y-5 justify-center h-full">
                     <h1 className="text-2xl">Register or Sign In 💻</h1>
-                    <p className="text-white/[0.8] text-justify">
+                    <p className="text-white/[0.8]text-justify">
                       Get started by registering or signing in to your account.
                       Enjoy the full suite of features by creating your
                       personalized workspace.
                     </p>
-                    <Link className="linear-gradient-button w-fit">
+                    <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                       <span className="button-gradient">Sign In</span>
                     </Link>
                   </div>
@@ -51,7 +55,7 @@ function HowItWorks() {
               <TimelineItem>
                 <TimelineOppositeContent sx={{ py: 0 }}>
                   <div className="py-10">
-                    <img src={codeSnippet} alt="" />
+                    <img className="border-2 rounded-md border-[#303030]" src={CreateCollections} alt="" />
                   </div>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
@@ -59,7 +63,7 @@ function HowItWorks() {
                   <TimelineConnector sx={{ backgroundColor: "#ffc0cb" }} />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <div className="flex flex-col gap-y-5 justify-center h-full">
+                  <div className="font-poppins flex flex-col gap-y-5 justify-center h-full">
                     <h1 className="text-2xl text-start">
                       Create Public or Private Collection 🔐
                     </h1>
@@ -68,7 +72,7 @@ function HowItWorks() {
                       Keep sensitive code secure or contribute openly to the
                       coding community.
                     </p>
-                    <Link className="linear-gradient-button w-fit">
+                    <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                       <span className="button-gradient">Get Started Now</span>
                     </Link>
                   </div>
@@ -79,7 +83,7 @@ function HowItWorks() {
               <TimelineItem>
                 <TimelineOppositeContent sx={{ py: 0 }}>
                   <div className="py-10">
-                    <img src={codeSnippet} alt="" />
+                    <img className="border-2 rounded-md border-[#303030]" src={StoreSnippets} alt="" />
                   </div>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
@@ -87,14 +91,14 @@ function HowItWorks() {
                   <TimelineConnector sx={{ backgroundColor: "#ffc0cb" }} />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <div className="flex flex-col gap-y-5 justify-center h-full">
+                  <div className="font-poppins flex flex-col gap-y-5 justify-center h-full">
                     <h1 className="text-2xl">Store Your Snippets 📝</h1>
                     <p className="text-white/[0.8] text-justify">
                       Save and manage your code snippets effortlessly. Store
                       solutions, ideas, or reusable code for quick access
                       anytime, anywhere.
                     </p>
-                    <Link className="linear-gradient-button w-fit">
+                    <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                       <span className="button-gradient">Store Snippets</span>
                     </Link>
                   </div>
@@ -105,7 +109,7 @@ function HowItWorks() {
               <TimelineItem>
                 <TimelineOppositeContent sx={{ py: 0 }}>
                   <div className="py-10">
-                    <img src={codeSnippet} alt="" />
+                    <img className="border-2 rounded-md border-[#303030]" src={Contribute} alt="" />
                   </div>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
@@ -113,14 +117,14 @@ function HowItWorks() {
                   <TimelineConnector sx={{ backgroundColor: "#ffc0cb" }} />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <div className="flex flex-col gap-y-5 justify-center h-full">
+                  <div className="font-poppins flex flex-col gap-y-5 justify-center h-full">
                     <h1 className="text-2xl text-start">Contribute to Open Source 🌐</h1>
                     <p className="text-white/[0.8] text-justify">
                       Share your knowledge and expertise by contributing public
                       snippets. Empower the open-source community with your
                       solutions.
                     </p>
-                    <Link className="linear-gradient-button w-fit">
+                    <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                       <span className="button-gradient">Contribute Now</span>
                     </Link>
                   </div>
@@ -131,7 +135,7 @@ function HowItWorks() {
               <TimelineItem>
                 <TimelineOppositeContent sx={{ py: 0 }}>
                   <div className="py-10">
-                    <img src={codeSnippet} alt="" />
+                    <img className="border-2 rounded-md border-[#303030]" src={StoreAndAccess} alt="" />
                   </div>
                 </TimelineOppositeContent>
                 <TimelineSeparator>
@@ -139,14 +143,14 @@ function HowItWorks() {
                   <TimelineConnector sx={{ backgroundColor: "#ffc0cb" }} />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <div className="flex flex-col gap-y-5 justify-center h-full">
+                  <div className="font-poppins flex flex-col gap-y-5 justify-center h-full">
                     <h1 className="text-2xl">Store and Access Easily 🎯</h1>
                     <p className="text-white/[0.8] text-justify">
                       Effortlessly store and access your snippets in an
                       organized manner. Streamline your coding workflow with
                       easy retrieval.
                     </p>
-                    <Link className="linear-gradient-button w-fit">
+                    <Link to="/auth/sign-in" className="linear-gradient-button w-fit">
                       <span className="button-gradient">View your Snippets</span>
                     </Link>
                   </div>

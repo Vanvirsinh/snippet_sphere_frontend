@@ -2,11 +2,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./components/common/Layout";
 import DashboardLayout from "./components/dashboard/common/DashboardLayout";
 import Home from "./components/pages/home/Home";
-import About from "./components/pages/about/About";
-import Dashboard from "./components/dashboard/Dashboard";
+import Overview from "./components/dashboard/overview/Overview";
 import Features from "./components/pages/home/Features";
 import Login from "./components/pages/login/Signin";
-import Signup from "./components/pages/login/Signup";
+import SignUp from "./components/pages/login/Signup";
 import OTP from "./components/pages/login/OTP";
 import Collection from "./components/dashboard/collection/Collection";
 import SpecificCollection from "./components/dashboard/collection/snippets/SpecificCollection";
@@ -16,6 +15,15 @@ import IndSnippet from "./components/dashboard/snippets/IndSnippet";
 import Snippets from "./components/dashboard/snippets/Snippets";
 import CreateSnippet from "./components/dashboard/snippets/CreateSnippet";
 import UpdateSnippet from "./components/dashboard/snippets/UpdateSnippet";
+import Analytics from "./components/dashboard/analytics/Analytics";
+import Profile from "./components/dashboard/profile/Profile";
+import Settings from "./components/dashboard/setting/Settings";
+import AllSnippets from "./components/pages/snippets/AllSnippets";
+import PinnedSnippets from "./components/dashboard/pinned/PinnedSnippets";
+import Pricing from "./components/pages/home/Pricing";
+import FAQ from "./components/pages/home/FAQ";
+import ForgetPassword from "./components/pages/login/ForgetPassword";
+import OTPForgetPassword from "./components/pages/login/OTPForgetPassword";
 
 const router = createBrowserRouter([
   {
@@ -27,12 +35,20 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "about",
-        element: <About />,
+        path: "pricing",
+        element: <Pricing />,
+      },
+      {
+        path: "explore-snippets",
+        element: <AllSnippets />,
       },
       {
         path: "features",
         element: <Features />,
+      },
+      {
+        path: "faqs",
+        element: <FAQ />,
       },
     ],
   },
@@ -46,11 +62,19 @@ const router = createBrowserRouter([
       },
       {
         path: "sign-up",
-        element: <Signup />,
+        element: <SignUp />,
       },
       {
         path: "email-verification",
         element: <OTP />,
+      },
+      {
+        path: "forget-password",
+        element: <ForgetPassword />,
+      },
+      {
+        path: "forget-password/email-verification",
+        element: <OTPForgetPassword />,
       },
     ],
   },
@@ -60,7 +84,33 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Dashboard />,
+        element: <Overview />,
+      },
+      {
+        path: "analytics",
+        element: <Analytics />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "pinned-snippets",
+        element: <PinnedSnippets />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
+        children: [
+          {
+            path: "profile",
+            element: <Settings />,
+          },
+          {
+            path: "reset-password",
+            element: <Settings />,
+          },
+        ],
       },
       {
         path: "collection",

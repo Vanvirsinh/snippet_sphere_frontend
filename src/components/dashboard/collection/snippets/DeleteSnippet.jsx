@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogActions from "@mui/material/DialogActions";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteSnippet } from "../../../../redux/snippet/snippetAction";
+import CircularProgress from "@mui/material/CircularProgress";
 
-function DeleteSnippet({ handleClose, open }) {
+function DeleteSnippet({ handleClose, open, snippetId }) {
+  const dispatch = useDispatch();
+  const createSnippetData = useSelector((state) => state.snippet.createSnippet);
+  const [error, setError] = useState(null);
+
+  const { isLoading, response } = createSnippetData;
+
+  useEffect(() => {
+    if (!isLoading && response) {
+      if (response.success) {
+        handleClose();
+        window.location.reload();
+      } else {
+        setError(response.message || "Something Went Wrong!");
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
+      }
+    }
+  }, [createSnippetData, isLoading, handleClose, response]);
+
+  const handleDelete = () => {
+    dispatch(deleteSnippet(snippetId));
+  };
+
   return (
     <>
       <Dialog
@@ -35,6 +62,7 @@ function DeleteSnippet({ handleClose, open }) {
         <div className="pt-5 pb-2">
           <DialogTitle id="alert-dialog-title">Delete!</DialogTitle>
           <DialogContent>
+            {error && <p className="text-center text-red-400">{error}</p>}
             <div className="flex flex-col gap-y-3 text-white/[0.7] text-sm">
               <p className="text-white">
                 Are you sure you want to delete this Snippet?
@@ -49,10 +77,24 @@ function DeleteSnippet({ handleClose, open }) {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button sx={{background: '#232323', color: '#f2f2f2'}} onClick={handleClose}>Cancel</Button>
-            <Button sx={{background: '#cc3300', color: '#f2f2f2'}} onClick={handleClose} autoFocus>
-              Delete
+            <Button
+              sx={{ background: "#232323", color: "#f2f2f2" }}
+              onClick={handleClose}
+            >
+              Cancel
             </Button>
+            {isLoading ? (
+              <Button sx={{ background: "#cc3300", color: "#f2f2f2" }} disabled>
+                <CircularProgress size={20} sx={{ color: "white" }} />
+              </Button>
+            ) : (
+              <Button
+                sx={{ background: "#cc3300", color: "#f2f2f2" }}
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            )}
           </DialogActions>
         </div>
       </Dialog>
