@@ -100,18 +100,18 @@ function FAQ() {
     <>
       <div>
         <div>
-          <div className="bg-primary px-10 py-14">
-            <div className="flex gap-x-10">
-              <div className="w-1/3">
+          <div className="bg-primary md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 pt-10">
+            <div className="flex flex-col gap-y-5 md:flex-row md:gap-x-10">
+              <div className="md:w-1/3">
                 <div className="text-white flex flex-col gap-y-5">
-                  <h1 className="text-5xl mb-5 font-semibold">FAQs</h1>
-                  <p className="text-xl text-white/[0.8]">
+                  <h1 className="text-3xl md:text-5xl mb-0 md:mb-5 font-semibold">FAQs</h1>
+                  <p className="text-lg md:text-xl text-white/[0.8]">
                     Providing answers to commonly asked questions. Please feel
                     free to explore! 🤔
                   </p>
                 </div>
               </div>
-              <div className="w-2/3">
+              <div className="md:w-2/3">
                 <div>
                   {questions.map((question, index) => {
                     return (
@@ -119,10 +119,10 @@ function FAQ() {
                         expanded={expanded === "panel" + index}
                         onChange={handleChange("panel" + index)}
                         key={index}
-                        sx={{ mb: 3 }}
+                        sx={{ mb: 2 }}
                       >
                         <AccordionSummary>
-                          <h1 className="text-xl text-white/[0.9]">
+                          <h1 className="text-md md:text-xl text-white/[0.9]">
                             {question.question}
                           </h1>
                         </AccordionSummary>
@@ -140,14 +140,14 @@ function FAQ() {
           </div>
 
           {/* CTA */}
-          <div className="p-10 pt-2 bg-primary">
-            <div className="flex flex-col gap-y-10 items-center text-white mt-10 text-center">
-              <h1 className="text-5xl font-bold">
+          <div className="p-3 pt-0 pb-10 md:p-10 md:pt-0 bg-primary">
+            <div className="flex flex-col gap-y-5 md:gap-y-10 items-center text-white text-center">
+              <h1 className="text-3xl md:text-5xl font-bold">
                 Elevate Your
-                <span className="text-6xl custom-heading-snippet"> Coding </span>
+                <span className="text-4xl md:text-6xl custom-heading-snippet"> Coding </span>
                 Experience
               </h1>
-              <p className="text-white/[0.8] w-3/5 mx-auto">
+              <p className="text-start md:text-center text-white/[0.8] md:w-3/5 mx-auto">
                 Unlock a world of efficiency and innovation with our
                 cutting-edge code snippet manager. Seamlessly organize,
                 collaborate, and accelerate your coding projects with our

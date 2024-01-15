@@ -7,14 +7,14 @@ function Pricing() {
   return (
     <>
       <div>
-        <div className="bg-primary px-10 py-14">
+        <div className="bg-primary md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 pt-10">
           <div>
-            <h1 className="text-white text-center text-5xl mb-5 font-semibold">
+            <h1 className="text-white text-center text-3xl md:text-5xl mb-5 font-semibold">
               We offer a single plan: free! 🌟
             </h1>
           </div>
-          <div className="custom-pricing-plan w-fit mx-auto mt-10 rounded-lg">
-            <div className="p-10 bg-primary rounded-lg text-white">
+          <div className="custom-pricing-plan w-fit mx-auto mt-5 md:mt-10 rounded-md md:rounded-lg">
+            <div className="px-5 py-5 md:px-10 md:py-10 bg-primary rounded-md md:rounded-lg text-white">
               <p className="text-light-purple font-semibold">Starter</p>
               <h1 className="my-5 text-4xl font-semibold">
                 Free{" "}

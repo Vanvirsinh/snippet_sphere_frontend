@@ -24,11 +24,13 @@ import Pricing from "./components/pages/home/Pricing";
 import FAQ from "./components/pages/home/FAQ";
 import ForgetPassword from "./components/pages/login/ForgetPassword";
 import OTPForgetPassword from "./components/pages/login/OTPForgetPassword";
+import PageNotFound from "./components/pages/error404/PageNotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <PageNotFound />,
     children: [
       {
         path: "",

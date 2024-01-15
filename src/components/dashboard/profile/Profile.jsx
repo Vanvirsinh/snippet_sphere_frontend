@@ -17,6 +17,8 @@ function Profile() {
   const [profile, setProfile] = useState(null);
   const { username } = useParams();
 
+  const authUser = useSelector((state) => state.user.authUser);
+  const { user } = authUser;
   const { isLoading, response } = userProfile;
 
   useEffect(() => {
@@ -43,8 +45,11 @@ function Profile() {
 
   return (
     <>
-      <div style={style} className="ease-in-out duration-100 bg-primary overflow-auto">
-        <div className="p-6">
+      <div
+        style={style}
+        className="ease-in-out duration-100 bg-primary overflow-auto"
+      >
+        <div className="p-3 md:p-6">
           {isLoading || !profile ? (
             <div className="h-full">
               <CircularProgress size={30} sx={{ color: "#f2f2f2" }} />
@@ -52,11 +57,11 @@ function Profile() {
           ) : (
             <div className="text-white/[0.7]  flex flex-col gap-y-5">
               <div>
-                <h1 className="text-white text-xl">
+                <h1 className="text-white text-lg md:text-xl">
                   {profile.name}'s Personal Profile
                 </h1>
               </div>
-              <div className="flex gap-x-5 items-center">
+              <div className="flex flex-col gap-y-3 md:flex-row gap-x-5 md:items-center">
                 <div className="rounded-full h-72 w-72 border-2 border-[#404040]">
                   {profile.profilePicture === "" ? (
                     <div className="flex justify-center items-center rounded-full h-full w-full border-2 border-[#404040]">
@@ -67,13 +72,13 @@ function Profile() {
                   ) : (
                     <img
                       className="rounded-full h-full w-full"
-                      src={`http://localhost:8000${profile.profilePicture}`}
+                      src={`https://snippetsphere.online${profile.profilePicture}`}
                       alt={profile.name}
                     />
                   )}
                 </div>
-                <div className="flex flex-col gap-y-5">
-                  <h1 className="text-2xl text-white font-bold">
+                <div className="flex flex-col gap-y-3 md:gap-y-5">
+                  <h1 className="text-xl md:text-2xl text-white font-bold">
                     {profile.name}
                   </h1>
                   {profile.headline !== "" && <p>{profile.headline}</p>}
@@ -85,16 +90,18 @@ function Profile() {
                       <PersonIcon /> {profile.username}
                     </Link>
                   </p>
-                  <div className="linear-gradient-button w-fit">
-                    <Link
-                      to={`/${username}/settings/profile`}
-                      className="button-dark text-sm"
-                      style={{ padding: "10px" }}
-                    >
-                      <EditIcon sx={{ fontSize: 18, mr: 1 }} />
-                      Edit Profile
-                    </Link>
-                  </div>
+                  {user && user.user.username === username && (
+                    <div className="linear-gradient-button w-fit">
+                      <Link
+                        to={`/${username}/settings/profile`}
+                        className="button-dark text-sm"
+                        style={{ padding: "10px" }}
+                      >
+                        <EditIcon sx={{ fontSize: 18, mr: 1 }} />
+                        Edit Profile
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-y-4">

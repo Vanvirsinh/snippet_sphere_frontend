@@ -6,6 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { CircularProgress } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPinnedSnippets } from "../../../redux/snippet/snippetAction";
+import PageNotFound from "../../pages/error404/PageNotFound";
 
 function PinnedSnippets() {
   const outLetProps = useOutletContext();
@@ -13,10 +14,23 @@ function PinnedSnippets() {
   const [snippets, setSnippets] = useState([]);
   const [searchSnippets, setSearchSnippets] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [authorization, setAuthorization] = useState(false);
+  const authUser = useSelector((state) => state.user.authUser);
   const dispatch = useDispatch();
   const pinnedSnippetsData = useSelector(
     (state) => state.snippet.pinnedSnippets
   );
+
+  useEffect(() => {
+    const { user, isLoading } = authUser;
+    if (!isLoading && user) {
+      if (user.success) {
+        if (user.user.username === username) {
+          setAuthorization(true);
+        }
+      }
+    }
+  }, [authUser, username]);
 
   useEffect(() => {
     dispatch(fetchPinnedSnippets({ username }));
@@ -61,12 +75,13 @@ function PinnedSnippets() {
   return (
     <>
       <div style={style} className="ease-in-out duration-100 bg-primary overflow-auto">
-        <div className="p-6">
-          <div className="flex flex-col gap-y-5">
+      {authorization ? (
+        <div className="p-3 md:p-6">
+          <div className="flex flex-col gap-y-3 md:gap-y-5">
             <div>
               <h1 className="text-white text-xl">Your Pinned Snippets</h1>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-y-3 sm:gap-y-0 sm:flex-row justify-between sm:items-center">
               <form onSubmit={handleSubmit} className="flex">
                 <input
                   type="search"
@@ -74,7 +89,7 @@ function PinnedSnippets() {
                   autoComplete="off"
                   name="search"
                   placeholder="Search across snippets"
-                  className="text-white px-3 py-2 w-96 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
+                  className="text-white px-3 py-2 w-full sm:w-96 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
                 />
                 <button
                   type="submit"
@@ -86,7 +101,7 @@ function PinnedSnippets() {
               <div>
                 <Link
                   to={`/explore-snippets`}
-                  className="text-white cursor-pointer gap-x-2 flex items-center"
+                  className="text-sm sm:text-base text-white cursor-pointer gap-x-2 flex items-center"
                 >
                   <ViewComfyAltIcon /> Explore Snippets
                 </Link>
@@ -101,7 +116,7 @@ function PinnedSnippets() {
               ) : (
                 <div>
                   {searchSnippets && searchSnippets.length > 0 ? (
-                    <div className="grid grid-cols-4 gap-5">
+                    <div className="grid gid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
                       {searchSnippets
                         .slice()
                         .reverse()
@@ -131,6 +146,15 @@ function PinnedSnippets() {
             </div>
           </div>
         </div>
+        ) : authUser.isLoading ? (
+          <div className="text-white h-full flex justify-center items-center">
+            <span><CircularProgress size={30} sx={{color: '#f2f2f2'}} /></span>
+          </div>
+        ) : (
+          <div>
+            <PageNotFound />
+          </div>
+        )}
       </div>
     </>
   );

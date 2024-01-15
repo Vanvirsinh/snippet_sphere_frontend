@@ -48,14 +48,14 @@ const features = [
 function Features() {
   return (
     <>
-      <div className="bg-primary px-10 py-14">
+      <div className="bg-primary md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 pt-10">
         <div className="text-white mb-10">
-          <h1 className="text-white text-center text-5xl mb-5 font-semibold">
+          <h1 className="text-white text-center text-3xl md:text-5xl mb-5 font-semibold">
             Why Snippet Sphere?
           </h1>
         </div>
         <div>
-          <div className="grid grid-cols-3 gap-7 mb-10 text-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 mb-10 text-white">
             {features.map((feature, index) => {
               return (
                 <div

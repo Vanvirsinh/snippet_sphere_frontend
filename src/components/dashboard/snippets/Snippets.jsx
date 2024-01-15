@@ -16,6 +16,8 @@ function Snippets() {
   const { username } = useParams();
 
   const dispatch = useDispatch();
+  const authUser = useSelector((state) => state.user.authUser);
+  const { user } = authUser;
 
   useEffect(() => {
     dispatch(fetchUserSpecSnippet(username));
@@ -66,12 +68,12 @@ function Snippets() {
   return (
     <>
       <div style={style} className="ease-in-out duration-100 bg-primary overflow-auto">
-        <div className="p-6">
-          <div className="flex flex-col gap-y-5">
+        <div className="p-3 md:p-6">
+          <div className="flex flex-col gap-y-3 md:gap-y-5">
             <div>
               <h1 className="text-white text-xl">View All Snippets</h1>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col gap-y-3 sm:gap-y-0 sm:flex-row justify-between sm:items-center">
               <form onSubmit={handleSubmit} className="flex">
                 <input
                   type="search"
@@ -79,7 +81,7 @@ function Snippets() {
                   autoComplete="off"
                   onChange={handleChange}
                   placeholder="Search across snippets"
-                  className="text-white px-3 py-2 w-96 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
+                  className="text-white px-3 py-2 w-full sm:w-96 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
                 />
                 <button
                   type="submit"
@@ -88,14 +90,16 @@ function Snippets() {
                   <SearchIcon sx={{ color: "#f2f2f2" }} />
                 </button>
               </form>
+              {user && user.user.username === username && (
               <div>
                 <Link
                   to={`/${username}/snippets/new`}
-                  className="text-white cursor-pointer gap-x-2 flex items-center"
+                  className="text-sm sm:text-base text-white cursor-pointer gap-x-2 flex items-center"
                 >
                   <AddCircleOutlineIcon /> Create Snippet
                 </Link>
               </div>
+              )}
             </div>
 
             <div>
@@ -106,16 +110,17 @@ function Snippets() {
               ) : (
                 <div>
                   {searchSnippets && searchSnippets.length > 0 ? (
-                    <div className="grid grid-cols-4 gap-5">
+                    <div className="grid gid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
                       {searchSnippets.slice().reverse().map((snippet, index) => {
                         return <SnippetItem snippet={snippet} key={index} />;
                       })}
                     </div>
                   ) : (
-                    <div className="p-32 flex flex-col justify-center items-center gap-y-10 w-full h-full">
-                      <h1 className="text-center text-[#404040] text-5xl font-semibold">
+                    <div className="py-28 md:p-32 flex flex-col justify-center items-center gap-y-10 w-full h-full">
+                      <h1 className="text-center text-[#404040] text-3xl md:text-5xl font-semibold">
                         No Snippets Found
                       </h1>
+                      {user && user.user.username === username && (
                       <div className="linear-gradient-button">
                         <Link
                           to={`/${username}/snippets/new`}
@@ -124,6 +129,7 @@ function Snippets() {
                           Create new Snippet
                         </Link>
                       </div>
+                      )}
                     </div>
                   )}
                 </div>

@@ -23,7 +23,7 @@ function Hero() {
   const [collection, setCollection] = useState([]);
   const editorRef = useRef(null);
   const [copyMessage, setCopyMessage] = useState({
-    text: "Copy Code",
+    text: "Copy",
     icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
   });
 
@@ -96,19 +96,19 @@ function Hero() {
           });
           setTimeout(() => {
             setCopyMessage({
-              text: "Copy Code",
+              text: "Copy",
               icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
             });
           }, 2000);
         })
         .catch(() => {
           setCopyMessage({
-            text: "Error Occurred!",
+            text: "Error!",
             icon: <ErrorIcon sx={{ fontSize: 18, mr: 1 }} />,
           });
           setTimeout(() => {
             setCopyMessage({
-              text: "Copy Code",
+              text: "Copy",
               icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
             });
           }, 2000);
@@ -120,17 +120,17 @@ function Hero() {
     <>
       <div>
         <div className="bg-primary">
-          <div className="flex px-10 py-14 gap-x-10">
+          <div className="flex flex-col-reverse md:flex-row md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 gap-5 md:gap-10">
             {/* Left */}
-            <div className="w-1/2">
-              <div className="text-white flex flex-col gap-y-10">
+            <div className="md:w-1/2">
+              <div className="text-white flex flex-col md:gap-y-10 gap-y-5">
                 <span className="w-fit text-white/[0.90]">
                   💻 Fuel your creativity: Dive into code snippets{" "}
                   <ArrowRightAltIcon sx={{ color: "#800080" }} />
                 </span>
-                <h1 className="text-5xl font-bold leading-snug">
+                <h1 className="text-3xl md:text-5xl font-bold leading-normal md:leading-snug">
                   Keep Your Daily-Used{" "}
-                  <span className="custom-heading text-7xl">Code Snippets</span>{" "}
+                  <span className="custom-heading text-5xl md:text-7xl">Code Snippets</span>{" "}
                   <br />
                   Instantly Accessible
                 </h1>
@@ -141,22 +141,22 @@ function Hero() {
                   Store, organize, and access your go-to code snippets
                   effortlessly.
                 </p>
-                <div className="flex gap-x-5 pt-4">
+                <div className="flex flex-col gap-y-2 sm:flex-row sm:gap-x-3 gap-x-2 md:gap-x-5 pt-2 md:pt-4">
                   <Link to="/auth/sign-in" className="linear-gradient-button">
-                    <span className="button-gradient">
-                      Get Started for Free
+                    <span className="button-gradient w-full text-center">
+                      Dashboard
                     </span>
                   </Link>
                   <Link to="/explore-snippets" className="linear-gradient-button">
-                    <span className="button-dark">Explore Snippets</span>
+                    <span className="button-dark w-full text-center">Explore Snippets</span>
                   </Link>
                 </div>
               </div>
             </div>
 
             {/* Right */}
-            <div className="w-1/2 flex flex-col gap-y-4">
-              <Link to={`/vanvirsinh/snippets/uvO4sOXT`} className="text-white text-lg hover:text-light-purple flex items-center gap-x-1"><span className="inline-block -rotate-45"><LinkIcon/></span>{snippet.title}</Link>
+            <div className="md:w-1/2 flex flex-col gap-y-4">
+              <Link to={`/vanvirsinh/snippets/uvO4sOXT`} className="text-white md:text-lg hover:text-light-purple flex items-center gap-x-1"><span className="inline-block -rotate-45"><LinkIcon/></span>{snippet.title}</Link>
               <div className="custom-snippet-parent">
                 <div className="rounded-t-md bg-secondary py-2 px-4 flex justify-between text-sm text-white/[0.7] items-center">
                   <div>
@@ -166,7 +166,7 @@ function Hero() {
                       <SnippetFolderIcon sx={{ fontSize: 18, mr: 1 }} />
                       {collection.name}
                     </Link>
-                    <span className="ml-5">{snippet.language}</span>
+                    <span className="hidden md:inline-block ml-5">{snippet.language}</span>
                   </div>
                   <span className="cursor-pointer" onClick={handleCopy}>
                     {copyMessage.icon} {copyMessage.text}
@@ -180,6 +180,9 @@ function Hero() {
                     language={snippet.language}
                     options={{
                       readOnly: true,
+                      scrollbar: {
+                        alwaysConsumeMouseWheel: false
+                      }
                     }}
                     onMount={handleEditorDidMount}
                     loading={<h1 className="text-white">Loading...</h1>}
@@ -196,7 +199,7 @@ function Hero() {
                     <span className="user-profile">
                       {profile.profilePicture !== "" ? (
                         <img
-                          src={`http://localhost:8000${profile.profilePicture}`}
+                          src={`https://snippetsphere.online${profile.profilePicture}`}
                           alt={profile.name}
                           className="h-full w-full rounded-full"
                         />

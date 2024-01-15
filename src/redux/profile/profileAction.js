@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
-const host = "http://localhost:8000";
+const host = "https://snippetsphere.online";
 
 // Fetch User Profile
 export const fetchUserProfile = createAsyncThunk(

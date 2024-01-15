@@ -8,6 +8,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import { fetchUserProfile } from "../../../redux/profile/profileAction";
 
 function AllSnippets() {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,7 @@ function AllSnippets() {
   const dispatch = useDispatch();
   const allSnippetsData = useSelector((state) => state.snippet.allSnippets);
   const [snippets, setSnippets] = useState(null);
+  const [profile, setProfile] = useState([]);
   const [totalSnippets, setTotalSnippets] = useState(null);
   const [currentPage, setCurrentPage] = useState(searchParams.get("page") || 1);
   const [query, setQuery] = useState({ query: "" });
@@ -28,15 +30,35 @@ function AllSnippets() {
     dispatch(fetchAllSnippets({ page: currentPage, query: currentQuery }));
   }, [dispatch, currentPage, currentQuery]);
 
+  const userProfile = useSelector((state) => state.profile.userProfile);
+
+  useEffect(() => {
+    const { isLoading, response } = userProfile;
+    if (!isLoading && response) {
+      if (response.success) {
+        setProfile((p) => [...p, response.profile]);
+      } else {
+        setProfile([]);
+      }
+    }
+  }, [userProfile]);
+
   useEffect(() => {
     if (!isLoading && response) {
       if (response.success) {
         setSnippets(response.snippets);
+        const usersToFetch = response.snippets.map(
+          (snippet) => snippet.authorName
+        );
+        const uniqueArr = Array.from(new Set(usersToFetch));
+        uniqueArr.forEach((authorName) => {
+          dispatch(fetchUserProfile(authorName));
+        });
         const { totalSnippetsLength } = response;
         setTotalSnippets(totalSnippetsLength);
       }
     }
-  }, [isLoading, response]);
+  }, [isLoading, response, dispatch]);
 
   const handleChangePagination = (event, value) => {
     setCurrentPage(value);
@@ -63,11 +85,11 @@ function AllSnippets() {
   return (
     <>
       <div className="bg-primary">
-        <div className="flex flex-col gap-y-5 px-10 py-14">
+        <div className="flex flex-col md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 gap-5 md:gap-10">
           <h1 className="text-xl text-white">
             Explore across all the public snippets
           </h1>
-          <div className="flex gap-x-5 items-center">
+          <div className="flex md:gap-x-5 gap-y-3 flex-col md:flex-row justify-start md:items-center">
             <form onSubmit={handleSubmitForm} className="flex">
               <input
                 name="query"
@@ -77,7 +99,7 @@ function AllSnippets() {
                 placeholder="Search across collections"
                 autoComplete="off"
                 required
-                className="text-white px-3 w-[500px] py-2 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
+                className="text-white px-3 w-full sm:w-[500px] py-2 bg-secondary rounded-l-md outline-none border-2 border-[#232323] border-r-0 focus:placeholder:text-[#808080]"
               />
               <button
                 type="submit"
@@ -88,7 +110,7 @@ function AllSnippets() {
             </form>
             {currentQuery !== "" && (
               <div>
-                <h1 className="bg-secondary p-2 rounded text-white/[0.8] flex justify-center items-center gap-x-3">
+                <h1 className="bg-secondary p-2 rounded text-white/[0.8] flex justify-between items-center gap-x-3">
                   Result for: {currentQuery}{" "}
                   <span
                     onClick={handleRemoveQuery}
@@ -110,19 +132,26 @@ function AllSnippets() {
             ) : (
               <div>
                 {snippets && snippets.length > 0 ? (
-                  <div className="grid grid-cols-4 gap-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
                     {snippets.map((snippet, index) => {
+                      let currentUser;
+                      profile.forEach((p) => {
+                        if (p.username === snippet.authorName) {
+                          currentUser = p;
+                        }
+                      });
                       return (
                         <AllSnippetItem
                           key={index}
+                          profile={currentUser}
                           snippet={snippet}
                         />
                       );
                     })}
                   </div>
                 ) : (
-                  <div className="h-[450px] flex justify-center items-center">
-                    <h1 className="text-[#404040] text-5xl font-semibold">
+                  <div className="h-[400px] flex justify-center items-center">
+                    <h1 className="text-[#404040] text-3xl md:text-5xl text-center font-semibold">
                       No Public Snippets Available!
                     </h1>
                   </div>

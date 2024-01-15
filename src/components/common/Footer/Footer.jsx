@@ -9,10 +9,10 @@ function Footer() {
   return (
     <>
       <div>
-        <div className="bg-primary border-t border-[#303030] p-10 pb-5">
-          <div className="grid grid-cols-5 gap-10">
+        <div className="bg-primary border-t border-[#303030] p-3 md:p-10 md:pb-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5 md:gap-10">
             <div className="col-span-2">
-              <div className="flex flex-col gap-y-5">
+              <div className="flex flex-col gap-y-3 md:gap-y-5">
                 <div className="h-[50px]">
                   <img className="h-full" src={logo} alt="" />
                 </div>
@@ -39,9 +39,9 @@ function Footer() {
               </div>
             </div>
             <div>
-              <div className="flex flex-col gap-y-5 text-white">
-                <h1 className="text-xl text-center">Navigation</h1>
-                <ul className="flex flex-col items-center gap-y-2 text-white/[0.7]">
+              <div className="flex flex-col gap-y-3 md:gap-y-5 text-white">
+                <h1 className="text-xl sm:text-center font-semibold sm:font-normal">Navigation</h1>
+                <ul className="flex flex-col items-start sm:items-center gap-y-2 text-white/[0.7]">
                   <li>Home</li>
                   <li>Snippets</li>
                   <li>Blogs</li>
@@ -52,9 +52,9 @@ function Footer() {
             </div>
             <div>
               <div>
-                <div className="flex flex-col gap-y-5 text-white">
-                  <h1 className="text-xl text-center">Connect with me</h1>
-                  <ul className="flex flex-col items-center gap-y-2 text-white/[0.7]">
+                <div className="flex flex-col gap-y-3 md:gap-y-5 text-white">
+                  <h1 className="text-xl sm:text-center font-semibold sm:font-normal">Connect with me</h1>
+                  <ul className="flex flex-col sm:items-center gap-y-2 text-white/[0.7]">
                     <li>
                       <GitHubIcon sx={{ fontSize: 33 }} />
                     </li>
@@ -70,9 +70,9 @@ function Footer() {
             </div>
             <div>
               <div>
-                <div className="flex flex-col gap-y-5 text-white">
-                  <h1 className="text-xl text-center">Legal</h1>
-                  <ul className="flex flex-col items-center gap-y-2 text-white/[0.7]">
+                <div className="flex flex-col gap-y-3 md:gap-y-5 text-white">
+                  <h1 className="text-lg sm:text-xl sm:text-center font-semibold sm:font-normal">Legal</h1>
+                  <ul className="flex flex-col sm:items-center gap-y-2 text-white/[0.7]">
                     <li>Terms of Service</li>
                     <li>Privacy Policy</li>
                     <li>Cookie Policy</li>
@@ -81,7 +81,7 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="border-t border-[#303030] mt-10">
+          <div className="border-t border-[#303030] mt-5 md:mt-10">
             <div className="text-white/[0.8] text-center flex flex-col gap-y-3 mt-5">
               <p className="text-sm">
                 Made with ❤️ by{" "}

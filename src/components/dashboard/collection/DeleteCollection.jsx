@@ -48,7 +48,9 @@ function DeleteCollection({ handleClose, open, collection }) {
           sx: {
             backgroundColor: "#1c1c1c",
             color: "#f2f2f2",
-            border: "0px solid #303030",
+            border: "1px solid #303030",
+            maxWidth: '500px',
+            width: '100vw',
           },
         }}
       >
@@ -62,10 +64,10 @@ function DeleteCollection({ handleClose, open, collection }) {
             </span>
           </div>
         </div>
-        <div className="pt-5 pb-2">
+        <div className="pt-3 md:pt-5 pb-2">
           <DialogTitle id="alert-dialog-title">Delete!</DialogTitle>
           {error && <p className="text-center text-red-400">{error}</p>}
-          <DialogContent>
+          <DialogContent sx={{padding: 2}}>
             <div className="flex flex-col gap-y-3 text-white/[0.7] text-sm">
               <p className="text-white">
                 Are you sure you want to delete this collection?

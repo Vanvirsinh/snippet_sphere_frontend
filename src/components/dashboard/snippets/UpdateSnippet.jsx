@@ -9,6 +9,7 @@ import { updateSnippet } from "../../../redux/snippet/snippetAction";
 import { fetchUserSpecCollection } from "../../../redux/collection/collectionAction";
 import { fetchIndSnippet } from "../../../redux/snippet/snippetAction";
 import CircularProgress from "@mui/material/CircularProgress";
+import PageNotFound from "../../pages/error404/PageNotFound";
 
 function UpdateSnippet() {
   const outLetProps = useOutletContext();
@@ -17,6 +18,8 @@ function UpdateSnippet() {
   const [collections, setCollections] = useState([]);
   const [snippetObjId, setSnippetObjId] = useState([]);
   const [error, setError] = useState(null);
+  const [authorization, setAuthorization] = useState(false);
+  const authUser = useSelector((state) => state.user.authUser);
   const [currentCollectionId, setCurrentCollectionId] = useState("disabled");
   const [data, setData] = useState({
     title: "",
@@ -31,6 +34,18 @@ function UpdateSnippet() {
   const collectionData = useSelector(
     (state) => state.collection.userSpecCollection
   );
+
+  useEffect(() => {
+    const { user, isLoading } = authUser;
+    if (!isLoading && user) {
+      if (user.success) {
+        if (user.user.username === username) {
+          setAuthorization(true);
+        }
+      }
+    }
+  }, [authUser, username]);
+
   const indSnippetData = useSelector(
     (state) => state.snippet.individualSnippet
   );
@@ -142,16 +157,17 @@ function UpdateSnippet() {
   return (
     <>
       <div style={style} className="bg-primary overflow-auto">
-        <div className="p-6">
-          <div className="flex flex-col gap-y-5">
+      {authorization ? (
+        <div className="p-3 md:p-6">
+          <div className="flex flex-col gap-y-3 md:gap-y-5">
             <Link to={`/${username}/snippets`} className="text-white/[0.6] text-sm">
               <ArrowBackIcon sx={{ fontSize: 20, mr: 1 }} />
               Back to Snippets
             </Link>
-            <div className="flex flex-col gap-y-5">
+            <div className="flex flex-col gap-y-3 md:gap-y-5">
               <form onSubmit={handleSubmit} className="flex flex-col gap-y-5">
-                <div className="flex flex gap-x-5 items-center">
-                  <div className="w-1/2 flex flex-col gap-y-2">
+                <div className="flex flex-col gap-y-3 md:flex-row gap-x-5 md:items-center">
+                  <div className="md:w-1/2 flex flex-col gap-y-2">
                     <label htmlFor="title" className="text-white/[0.7] text-sm">
                       Enter Title
                     </label>
@@ -249,17 +265,23 @@ function UpdateSnippet() {
                     </div>
                   )}
                 </div>
+                <div className="h-[400px] md:h-[450px]">
                 <Editor
-                  height="450px"
                   theme="vs-dark"
                   value={data.code}
                   defaultLanguage="javascript"
                   language={language}
                   onMount={handleEditorDidMount}
                   onChange={handleEditorChange}
+                  options={{
+                    scrollbar: {
+                      alwaysConsumeMouseWheel: false,
+                    },
+                  }}
                   loading={<h1 className="text-white">Loading...</h1>}
-                  className="border-2 border-secondary bg-[#1e1e1e] rounded-md py-4"
+                  className="border-2 border-secondary bg-[#1e1e1e] rounded-md md:py-4"
                 />
+                </div>
                 <div>
                   <div className="flex flex-col gap-y-2">
                     <label
@@ -274,12 +296,12 @@ function UpdateSnippet() {
                       onChange={handleChange}
                       rows="5"
                       id="description"
-                      className="text-white w-full p-5 rounded-md border-2 border-secondary bg-primary placeholder:text-sm placeholder:text-[#808080]"
+                      className="text-white w-full p-3 md:p-5 rounded-md border-2 border-secondary bg-primary placeholder:text-sm placeholder:text-[#808080]"
                       placeholder={`"e.g.,Enter description..."`}
                     ></textarea>
                   </div>
                 </div>
-                <div className="flex gap-x-5 items-center">
+                <div className="flex flex-col sm:flex-row gap-y-3 gap-x-5 sm:items-center">
                   <span className="linear-gradient-button text-white">
                     {isLoading ? (
                       <button className="button-gradient">
@@ -300,6 +322,15 @@ function UpdateSnippet() {
             </div>
           </div>
         </div>
+         ) : authUser.isLoading ? (
+          <div className="text-white h-full flex justify-center items-center">
+            <span><CircularProgress size={30} sx={{color: '#f2f2f2'}} /></span>
+          </div>
+        ) : (
+          <div>
+            <PageNotFound />
+          </div>
+        )}
       </div>
     </>
   );

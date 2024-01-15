@@ -80,21 +80,21 @@ function Overview() {
   return (
     <>
       <div style={style} className="ease-in-out duration-100 bg-primary overflow-auto">
-        <div className="p-6">
-          <div className="flex flex-col gap-y-5">
+        <div className="p-3 md:p-6">
+          <div className="flex flex-col gap-y-3 md:gap-y-5">
             <div>
-              <h1 className="mb-5 text-xl text-white">Overview</h1>
-              <div className="grid grid-cols-4 gap-5 text-white">
-                <div className="col-span-2">
+              <h1 className="mb-3 md:mb-5 text-xl text-white">Overview</h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 text-white">
+                <div className="sm:col-span-2">
                   <div className="bg-secondary p-5 rounded-md">
                     {isLoading || !profile ? (
                       <div className="h-72 flex justify-center items-center">
                         <CircularProgress size={30} sx={{ color: "#f2f2f2" }} />
                       </div>
                     ) : (
-                      <div className="flex gap-x-5 items-center">
-                        <div className="flex flex-col gap-y-5">
-                          <div className="rounded-full h-72 w-72 border-2 border-[#404040]">
+                      <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 items-center">
+                        <div>
+                          <div className="rounded-full sm:h-72 sm:w-72 border-2 border-[#404040]">
                             {profile.profilePicture === "" ? (
                               <div className="flex justify-center items-center rounded-full h-full w-full border-2 border-[#404040]">
                                 <h1 className="text-2xl font-bold text-[#404040]">
@@ -104,15 +104,15 @@ function Overview() {
                             ) : (
                               <img
                                 className="rounded-full h-full w-full"
-                                src={`http://localhost:8000${profile.profilePicture}`}
+                                src={`https://snippetsphere.online${profile.profilePicture}`}
                                 alt={profile.name}
                               />
                             )}
                           </div>
                         </div>
                         <div>
-                          <div className="flex flex-col gap-y-5">
-                            <h1 className="text-2xl text-white font-bold">
+                          <div className="flex flex-col gap-y-3 sm:gap-y-5">
+                            <h1 className="text-xl sm:text-2xl text-white font-semibold">
                               {profile.name}
                             </h1>
                             {profile.headline !== "" && (
@@ -213,7 +213,7 @@ function Overview() {
                     ) : (
                       <div>
                         {snippets && snippets.length > 0 ? (
-                          <div className="grid grid-cols-4 gap-5">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5">
                             {snippets
                               .slice()
                               .reverse()
@@ -224,18 +224,10 @@ function Overview() {
                               })}
                           </div>
                         ) : (
-                          <div className="p-32 flex flex-col justify-center items-center gap-y-10 w-full h-full">
-                            <h1 className="text-center text-[#404040] text-5xl font-semibold">
+                          <div className="py-28 md:p-16 flex flex-col justify-center items-center gap-y-10 w-full h-full">
+                            <h1 className="text-center text-[#404040] text-3xl md:text-5xl font-semibold">
                               No Snippets Created Yet!
                             </h1>
-                            <div className="linear-gradient-button">
-                              <Link
-                                to={`/${username}/snippets/new`}
-                                className="button-gradient text-white cursor-pointer gap-x-2 flex items-center"
-                              >
-                                Create new Snippet
-                              </Link>
-                            </div>
                           </div>
                         )}
                       </div>

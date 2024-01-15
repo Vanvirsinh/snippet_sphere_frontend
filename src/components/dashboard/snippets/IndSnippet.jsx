@@ -24,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
+import PageNotFound from "../../pages/error404/PageNotFound";
 
 function IndSnippet() {
   const outLetProps = useOutletContext();
@@ -31,10 +32,11 @@ function IndSnippet() {
   const [snippet, setSnippet] = useState(null);
   const [profile, setProfile] = useState(null);
   const [collection, setCollection] = useState([]);
+  const [authorization, setAuthorization] = useState(false);
   const [error, setError] = useState(null);
   const [copyMessage, setCopyMessage] = useState({
     text: "Copy Code",
-    icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
+    icon: <ContentCopyIcon sx={{ fontSize: 15, mr: 0 }} />,
   });
   const editorRef = useRef(null);
 
@@ -61,6 +63,7 @@ function IndSnippet() {
     if (!isLoading && response) {
       if (response.success) {
         setSnippet(response.snippet[0]);
+        setAuthorization(true);
         dispatch(
           fetchIndCollection({
             username: response.snippet[0].authorName,
@@ -126,24 +129,24 @@ function IndSnippet() {
         .then(() => {
           setCopyMessage({
             text: "Copied!",
-            icon: <CheckIcon sx={{ fontSize: 18, mr: 1 }} />,
+            icon: <CheckIcon sx={{ fontSize: 15, mr: 0 }} />,
           });
           setTimeout(() => {
             setCopyMessage({
               text: "Copy Code",
-              icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
+              icon: <ContentCopyIcon sx={{ fontSize: 15, mr: 0 }} />,
             });
           }, 2000);
         })
         .catch(() => {
           setCopyMessage({
             text: "Error Occurred!",
-            icon: <ErrorIcon sx={{ fontSize: 18, mr: 1 }} />,
+            icon: <ErrorIcon sx={{ fontSize: 15, mr: 0 }} />,
           });
           setTimeout(() => {
             setCopyMessage({
               text: "Copy Code",
-              icon: <ContentCopyIcon sx={{ fontSize: 18, mr: 1 }} />,
+              icon: <ContentCopyIcon sx={{ fontSize: 15, mr: 0 }} />,
             });
           }, 2000);
         });
@@ -191,9 +194,10 @@ function IndSnippet() {
   return (
     <>
       <div style={style} className="bg-primary overflow-auto">
-        <div className="p-6">
+      {authorization ? (
+        <div className="p-3 md:p-6">
           {snippet && (
-            <div className="text-white flex flex-col gap-y-5">
+            <div className="text-white flex flex-col gap-y-3 md:gap-y-5">
               <div>
                 <Link
                   className="text-sm text-white/[0.7]"
@@ -209,7 +213,7 @@ function IndSnippet() {
               {/* Snippet */}
               <div>
                 <div>
-                  <div className="rounded-t-md bg-secondary py-2 px-4 flex justify-between text-sm text-white/[0.7] items-center">
+                  <div className="rounded-t-md bg-secondary py-2 px-2 md:px-4 flex justify-between text-sm text-white/[0.7] items-center">
                     <div>
                       <Link
                         to={`/${username}/collection/${collection.collectionId}`}
@@ -217,34 +221,37 @@ function IndSnippet() {
                         <SnippetFolderIcon sx={{ fontSize: 18, mr: 1 }} />
                         {collection.name}
                       </Link>
-                      <span className="ml-5">{snippet.language}</span>
                     </div>
-                    <span className="cursor-pointer" onClick={handleCopy}>
+                    <span className="cursor-pointer text-xs" onClick={handleCopy}>
                       {copyMessage.icon} {copyMessage.text}
                     </span>
                   </div>
-                  <div className="overflow-auto h-[440px] border-t-0 border-b-0 border-4 border-secondary">
+                  <div className="overflow-auto h-[400px] md:h-[450px] border-t-0 border-b-0 border-4 border-secondary">
                     <Editor
-                      height="440px"
                       theme="vs-dark"
                       value={snippet.code}
                       language={snippet.language}
                       options={{
                         readOnly: true,
+                        scrollbar: {
+                          alwaysConsumeMouseWheel: false
+                        }
                       }}
                       onMount={handleEditorDidMount}
                       loading={<h1 className="text-white">Loading...</h1>}
-                      className="p-5 bg-[#1e1e1e]"
+                      className="p-0 sm:p-2 md:p-5 bg-[#1e1e1e]"
                     />
                   </div>
-                  <div className="rounded-b-md bg-secondary py-2 px-4 flex gap-x-6 justify-end text-sm text-white/[0.7] items-center">
+                  <div className="rounded-b-md bg-secondary py-2 px-2 md:px-4 flex justify-between text-sm text-white/[0.7] items-center">
+                  <span>{snippet.language}</span>
+                    <div className="flex gap-x-2">
                     {authUser && snippet.likes.includes(authUser.user._id) ? (
                       <span>
                         <Tooltip title="Unlike">
-                          <IconButton className="onClick={handleLikeSnippet}">
+                          <IconButton onClick={handleLikeSnippet}>
                             <FavoriteIcon
                               className="cursor-pointer active:scale-110"
-                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                              sx={{ fontSize: 19, mr: 0, color: "#f2f2f2" }}
                             />
                           </IconButton>
                         </Tooltip>
@@ -256,7 +263,7 @@ function IndSnippet() {
                           <IconButton onClick={handleLikeSnippet}>
                             <FavoriteBorderIcon
                               className="cursor-pointer active:scale-110"
-                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                              sx={{ fontSize: 19, mr: 0, color: "#f2f2f2" }}
                             />
                           </IconButton>
                         </Tooltip>
@@ -269,7 +276,7 @@ function IndSnippet() {
                           <IconButton onClick={handlePinSnippet}>
                             <PushPinIcon
                               className="cursor-pointer active:scale-110"
-                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                              sx={{ fontSize: 19, mr: 0, color: "#f2f2f2" }}
                             />
                           </IconButton>
                         </Tooltip>
@@ -281,24 +288,25 @@ function IndSnippet() {
                           <IconButton onClick={handlePinSnippet}>
                             <PushPinOutlinedIcon
                               className="cursor-pointer active:scale-110"
-                              sx={{ fontSize: 19, mr: 1, color: "#f2f2f2" }}
+                              sx={{ fontSize: 19, mr: 0, color: "#f2f2f2" }}
                             />
                           </IconButton>
                         </Tooltip>
                         Pin Snippet
                       </span>
                     )}
+                    </div>
                   </div>
                 </div>
               </div>
               <div>
-                <div className="flex items-center gap-x-5">
+                <div className="flex items-center gap-x-3 md:gap-x-5">
                   {profile && (
                     <div className="user-profile">
                       {profile.profilePicture !== "" ? (
                         <Link to={`/${username}`}>
                           <img
-                            src={`http://localhost:8000${profile.profilePicture}`}
+                            src={`https://snippetsphere.online${profile.profilePicture}`}
                             className="rounded-full h-full w-full"
                             alt={profile.name}
                           />
@@ -316,7 +324,7 @@ function IndSnippet() {
                     </div>
                   )}
                   <div className="flex flex-col">
-                    <Link to={`/${username}`} className="hover:underline">
+                    <Link to={`/${username}`} className="text-sm sm:test-base hover:underline">
                       {profile && profile.name}
                     </Link>
                     <span className="text-xs text-white/[0.5]">
@@ -364,7 +372,7 @@ function IndSnippet() {
                 </div>
               </div>
               {/* Description */}
-              <div className="bg-primary p-5 rounded-md flex flex-col gap-y-5">
+              <div className="bg-primary p-0 md:p-5 rounded-md flex flex-col gap-y-3 md:gap-y-5">
                 <div>
                   <h1 className="text-white/[0.7] text-sm">
                     Created At: {snippet.createdAt}
@@ -380,8 +388,17 @@ function IndSnippet() {
             </div>
           )}
         </div>
-        <ToastContainer />
+        ) : isLoading ? (
+          <div className="text-white h-full flex justify-center items-center">
+            <span><CircularProgress size={30} sx={{color: '#f2f2f2'}} /></span>
+          </div>
+        ) : (
+          <div>
+            <PageNotFound />
+          </div>
+        )}
       </div>
+      <ToastContainer />
     </>
   );
 }

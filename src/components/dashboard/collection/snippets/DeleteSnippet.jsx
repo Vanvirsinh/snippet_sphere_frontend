@@ -45,7 +45,9 @@ function DeleteSnippet({ handleClose, open, snippetId }) {
           sx: {
             backgroundColor: "#1c1c1c",
             color: "#f2f2f2",
-            border: "0px solid #303030",
+            border: "1px solid #303030",
+            maxWidth: '500px',
+            width: '100vw',
           },
         }}
       >
@@ -59,7 +61,7 @@ function DeleteSnippet({ handleClose, open, snippetId }) {
             </span>
           </div>
         </div>
-        <div className="pt-5 pb-2">
+        <div className="pt-3 md:pt-5 pb-2">
           <DialogTitle id="alert-dialog-title">Delete!</DialogTitle>
           <DialogContent>
             {error && <p className="text-center text-red-400">{error}</p>}

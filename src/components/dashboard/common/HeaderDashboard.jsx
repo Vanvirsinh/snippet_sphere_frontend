@@ -48,16 +48,16 @@ function HeaderSidebar({ findNavbarHeight }) {
 
   const handleLogout = () => {
     handleCloseUserMenu();
-    Cookies.remove('user-token');
-    window.location.assign('/auth/sign-in');
+    Cookies.remove("user-token");
+    window.location.assign("/auth/sign-in");
   };
 
   return (
     <>
       <div ref={headerRef}>
         <div>
-          <div className="px-10 py-3 flex justify-between items-center bg-secondary">
-            <div className="h-[45px]">
+          <div className="px-3 py-2 md:px-10 md:py-3 flex justify-between items-center bg-secondary">
+            <div className="h-[35px] md:h-[45px]">
               <Link to="/">
                 <img className="h-full" src={logo} alt="" />
               </Link>
@@ -92,7 +92,7 @@ function HeaderSidebar({ findNavbarHeight }) {
                                   </div>
                                 ) : (
                                   <img
-                                    src={`http://localhost:8000${user.userImage}`}
+                                    src={`https://snippetsphere.online${user.userImage}`}
                                     alt={user.user.name}
                                     className="h-full w-full rounded-full"
                                   />

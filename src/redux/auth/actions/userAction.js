@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const host = "http://localhost:8000";
+const host = "https://snippetsphere.online";
 
 export const sendOtp = createAsyncThunk("sendOtp", async (data) => {
   const response = await fetch(`${host}/api/auth/send-otp`, {

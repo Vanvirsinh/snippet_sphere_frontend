@@ -22,12 +22,12 @@ function ShowCase() {
   return (
     <>
       <div>
-        <div className="bg-primary px-10 py-14">
-          <div className="text-white mb-10">
-            <h1 className="text-light-purple text-2xl mb-5 font-semibold">
+        <div className="bg-primary md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 pt-10">
+          <div className="text-white mb-5 md:mb-10">
+            <h1 className="text-light-purple text-lg md:text-2xl mb-2 md:mb-5 font-semibold">
               Code Mastery Unlocked
             </h1>
-            <h1 className="text-5xl font-semibold">
+            <h1 className="text-3xl md:text-5xl font-semibold">
               Explore, Organize, Innovate{" "}
               <TurnRightIcon
                 className="rotate-90"
@@ -36,18 +36,18 @@ function ShowCase() {
             </h1>
           </div>
           {/* Search across public snippets */}
-          <div className="flex gap-x-10 text-white">
-            <div className="w-1/2">
+          <div className="flex flex-col gap-y-5 md:gap-x-10 text-white md:flex-row">
+            <div className="md:w-1/2">
               <div>
                 <img src={codeSnippet} alt="" />
               </div>
             </div>
-            <div className="w-1/2">
+            <div className="md:w-1/2">
               <div className="flex flex-col gap-y-5">
-                <h1 className="text-4xl font-normal">
+                <h1 className="text-2xl md:text-4xl font-normal">
                   Search across public snippets
                 </h1>
-                <p className="text-white/[0.80] text-justify">
+                <p className="text-white/[0.80] md:text-justify">
                   Tired of rewriting the same code? Our snippet manager
                   simplifies your coding process. Save frequently used snippets,
                   from function templates to complex algorithms, and access them
@@ -82,7 +82,7 @@ function ShowCase() {
                 </ul>
                 <form onSubmit={handleSubmit} >
                   <input
-                    className="rounded-md p-4 w-96 border border-[#303030] bg-secondary"
+                    className="rounded-md p-3 md:p-4 w-full md:w-96 border border-[#303030] bg-secondary"
                     type="text"
                     placeholder="Search for snippets 🔎"
                     onChange={handleChange}
@@ -93,13 +93,13 @@ function ShowCase() {
           </div>
 
           {/* Share solution open source */}
-          <div className="flex gap-x-10 text-white mt-16">
-            <div className="w-1/2">
+          <div className="flex flex-col-reverse md:flex-row gap-y-5 md:gap-x-10 text-white mt-10 md:mt-16">
+            <div className="md:w-1/2">
               <div className="flex flex-col gap-y-5">
-                <h1 className="text-4xl font-normal text-start leading-normal">
+                <h1 className="text-2xl md:text-4xl font-normal text-start leading-normal">
                   Share Open-Source Solutions
                 </h1>
-                <p className="text-white/[0.80] text-justify">
+                <p className="text-white/[0.80] md:text-justify">
                   Empower the open-source community by contributing and sharing
                   your innovative code solutions. Seamlessly collaborate, offer
                   valuable insights, and enhance projects by sharing snippets
@@ -115,7 +115,7 @@ function ShowCase() {
                 </div>
               </div>
             </div>
-            <div className="w-1/2">
+            <div className="md:w-1/2">
               <div>
                 <img src={codeSnippet2} alt="" />
               </div>

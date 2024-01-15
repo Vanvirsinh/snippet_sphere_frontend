@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import SnippetLogo from "../../../../assets/images/snippets-logo.png";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import DeleteSnippet from "./DeleteSnippet";
+import { useSelector } from "react-redux";
 
 function SnippetItem({ snippet }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const authUser = useSelector((state) => state.user.authUser);
+  const { user } = authUser;
+  const { username } = useParams();
 
   const handleClickDeleteOpen = () => {
     setDeleteOpen(true);
@@ -56,51 +60,53 @@ function SnippetItem({ snippet }) {
         <span className="z-[2] text-xs absolute right-5 bottom-5 bg-primary p-1 rounded text-white/[0.6]">
           {snippet.language}
         </span>
-        <div className="text-5xl flex rotate-180 relative">
-          <Menu
-            sx={{ mt: "0", ml: "30px" }}
-            id="menu-appbar"
-            open={open}
-            anchorEl={anchorElUser}
-            keepMounted
-            PaperProps={{
-              sx: {
-                backgroundColor: "#1c1c1c",
-                color: "#f2f2f2",
-                border: "1px solid #404040",
-              },
-            }}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem>
-              <Link
-                className="w-full"
-                to={`/${snippet.authorName}/snippets/${snippet.snippetId}/update`}
-              >
-                <div className="flex gap-x-2 items-center w-full py-1 px-2 hover:bg-secondary cursor-pointer rounded">
-                  <EditIcon sx={{ fontSize: 20 }} />
-                  Edit
+        {user && user.user.username === username && (
+          <div className="text-5xl flex rotate-180 relative">
+            <Menu
+              sx={{ mt: "0", ml: "30px" }}
+              id="menu-appbar"
+              open={open}
+              anchorEl={anchorElUser}
+              keepMounted
+              PaperProps={{
+                sx: {
+                  backgroundColor: "#1c1c1c",
+                  color: "#f2f2f2",
+                  border: "1px solid #404040",
+                },
+              }}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem>
+                <Link
+                  className="w-full"
+                  to={`/${snippet.authorName}/snippets/${snippet.snippetId}/update`}
+                >
+                  <div className="flex gap-x-2 items-center w-full py-1 px-2 hover:bg-secondary cursor-pointer rounded">
+                    <EditIcon sx={{ fontSize: 20 }} />
+                    Edit
+                  </div>
+                </Link>
+              </MenuItem>
+              <MenuItem onClick={handleClickDeleteOpen}>
+                <div className="flex gap-x-2 items-center py-1 px-2 hover:bg-secondary cursor-pointer rounded">
+                  <DeleteIcon sx={{ fontSize: 20 }} /> Delete
                 </div>
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleClickDeleteOpen}>
-              <div className="flex gap-x-2 items-center py-1 px-2 hover:bg-secondary cursor-pointer rounded">
-                <DeleteIcon sx={{ fontSize: 20 }} /> Delete
-              </div>
-            </MenuItem>
-          </Menu>
-          <span className="cursor-pointer" onClick={handleOpenNavMenu}>
-            ...
-          </span>
-        </div>
+              </MenuItem>
+            </Menu>
+            <span className="cursor-pointer" onClick={handleOpenNavMenu}>
+              ...
+            </span>
+          </div>
+        )}
       </div>
       <DeleteSnippet
         snippetId={snippet._id}

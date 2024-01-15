@@ -73,9 +73,9 @@ function Login() {
     <>
       <div>
         <div className="bg-primary">
-          <div className="px-10 py-14">
+          <div className="md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 py-5">
             <div className="custom-background w-fit mx-auto relative overflow-hidden">
-              <div className="bg-primary p-8 w-fit rounded-md text-white">
+              <div className="bg-primary p-3 sm:p-5 md:p-8 w-fit rounded-md text-white">
                 <p className="text-sm text-white/[0.7] text-center">
                   Login to access the features of
                 </p>
@@ -94,12 +94,12 @@ function Login() {
                     <Alert severity="error">{generalError}</Alert>
                   </div>
                 </div>
-                <h1 className="mt-5 mb-10 text-4xl font-semibold text-center">
+                <h1 className="mt-3 md:mt-5 mb-5 md:mb-10 text-3xl md:text-4xl font-semibold text-center">
                   Snippet Sphere
                 </h1>
                 <form
                   onSubmit={handleSubmit}
-                  className="flex flex-col gap-y-5 w-96 text-white"
+                  className="flex flex-col gap-y-3 md:gap-y-5 sm:w-96 text-white"
                 >
                   <div>
                     <input
@@ -108,8 +108,8 @@ function Login() {
                       name="email"
                       placeholder="Enter your email..."
                       onChange={handleChange}
-                      autoFocus
                       required
+                      autoComplete="off"
                     />
                     {errors && <ErrorMsg errors={errors} path="email" />}
                   </div>

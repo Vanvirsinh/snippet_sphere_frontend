@@ -1,30 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import SnippetLogo from "../../../assets/images/snippets-logo.png";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchUserProfile } from "../../../redux/profile/profileAction";
 
-function AllSnippetItem({ snippet }) {
-  const [profile, setProfile] = useState(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchUserProfile(snippet.authorName));
-  }, [dispatch, snippet.authorName]);
-
-  const userProfile = useSelector((state) => state.profile.userProfile);
-
-  useEffect(() => {
-    const { isLoading, response } = userProfile;
-    if (!isLoading && response) {
-      if (response.success) {
-        setProfile(response.profile);
-      } else {
-        setProfile([]);
-      }
-    }
-  }, [userProfile]);
-
+function AllSnippetItem({ snippet, profile }) {
 
   return (
     <>
@@ -51,7 +29,7 @@ function AllSnippetItem({ snippet }) {
                   </div>
                 ) : (
                   <img
-                    src={`http://localhost:8000${profile.profilePicture}`}
+                    src={`https://snippetsphere.online${profile.profilePicture}`}
                     alt=""
                     className="h-full w-full rounded-full"
                   />

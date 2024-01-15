@@ -71,7 +71,7 @@ function SignUp() {
     <>
       <div>
         <div className="bg-primary">
-          <div className="px-10 py-14">
+          <div className="md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 py-5">
             {isLoading ? (
               <div className="h-[500px]">Loading...</div>
             ) : (
@@ -80,15 +80,15 @@ function SignUp() {
                   <div className="h-[500px]"></div>
                 ) : (
                   <div className="custom-background w-fit mx-auto">
-                    <div className="bg-primary p-8 w-fit rounded-md text-white">
+                    <div className="bg-primary p-3 sm:p-5 md:p-8 w-fit rounded-md text-white">
                       <p className="text-sm text-white/[0.7] text-center">
                         Create an account with
                       </p>
-                      <h1 className="mt-5 mb-10 text-4xl font-semibold text-center">
+                      <h1 className="mt-3 md:mt-5 mb-5 md:mb-10 text-3xl md:text-4xl font-semibold text-center">
                         Snippet Sphere
                       </h1>
                       <form
-                        className="flex flex-col gap-y-5 w-96 text-white"
+                        className="flex flex-col gap-y-3 md:gap-y-5 sm:w-96 text-white"
                         onSubmit={handleSubmit}
                       >
                         <div>
@@ -100,7 +100,6 @@ function SignUp() {
                             onChange={handleChange}
                             value={data.name}
                             autoComplete="off"
-                            autoFocus
                           />
                           {errors && <ErrorMsg errors={errors} path="name" />}
                         </div>
@@ -126,6 +125,7 @@ function SignUp() {
                             placeholder="Enter your email..."
                             onChange={handleChange}
                             value={data.email}
+                            autoComplete="off"
                           />
                           {errors && <ErrorMsg errors={errors} path="email" />}
                         </div>

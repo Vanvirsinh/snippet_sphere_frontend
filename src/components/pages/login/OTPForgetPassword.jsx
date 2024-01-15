@@ -134,10 +134,10 @@ function OTPForgetPassword() {
     <>
       <div>
         <div className="bg-primary">
-          <div className="px-10 py-14">
+          <div className="md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 py-5">
             <div className="custom-background w-fit mx-auto">
-              <div className="bg-primary p-8 w-fit rounded-md text-white">
-                <div className="flex flex-col gap-y-5">
+              <div className="bg-primary p-3 sm:p-5 md:p-8 w-fit rounded-md text-white">
+                <div className="flex flex-col gap-y-3 md:gap-y-5">
                   <p className="text-sm text-white/[0.7] text-center">
                     We sent a verification code on your{" "}
                     <Link
@@ -163,14 +163,14 @@ function OTPForgetPassword() {
                     <Alert severity="error">{errors}</Alert>
                   </div>
                 </div>
-                  <h1 className="text-4xl font-semibold text-center">
+                  <h1 className="text-3xl md:text-4xl font-semibold text-center">
                     Confirm your email
                   </h1>
-                  <div className="mt-5">
+                  <div className="mt-3 md:mt-5">
                     <form className="mb-5" onSubmit={handleSubmit}>
                       <div className="flex justify-between">
                         <input
-                          className="w-[50px] h-[60px] rounded-md bg-primary outline-none border border-[#404040] text-center text-3xl focus:border-[#f2f2f2]"
+                          className="w-[35px] h-[40px] sm:w-[50px] sm:h-[60px] rounded sm:rounded-md bg-primary outline-none border border-[#404040] text-center text-xl md:text-3xl focus:border-[#f2f2f2]"
                           maxLength="1"
                           autoFocus
                           type="text"
@@ -178,51 +178,57 @@ function OTPForgetPassword() {
                           ref={inputRefs[0]}
                           onFocus={handleFocus}
                           onChange={handleChange}
+                          autoComplete="off"
                         />
                         <input
-                          className="w-[50px] h-[60px] rounded-md bg-primary outline-none border border-[#404040] text-center text-3xl focus:border-[#f2f2f2]"
+                          className="w-[35px] h-[40px] sm:w-[50px] sm:h-[60px] rounded sm:rounded-md bg-primary outline-none border border-[#404040] text-center text-xl md:text-3xl focus:border-[#f2f2f2]"
                           maxLength="1"
                           type="text"
                           name="2"
                           ref={inputRefs[1]}
                           onFocus={handleFocus}
                           onChange={handleChange}
+                          autoComplete="off"
                         />
                         <input
-                          className="w-[50px] h-[60px] rounded-md bg-primary outline-none border border-[#404040] text-center text-3xl focus:border-[#f2f2f2]"
+                          className="w-[35px] h-[40px] sm:w-[50px] sm:h-[60px] rounded sm:rounded-md bg-primary outline-none border border-[#404040] text-center text-xl md:text-3xl focus:border-[#f2f2f2]"
                           maxLength="1"
                           type="text"
                           name="3"
                           ref={inputRefs[2]}
                           onFocus={handleFocus}
                           onChange={handleChange}
+                          autoComplete="off"
                         />
                         <input
-                          className="w-[50px] h-[60px] rounded-md bg-primary outline-none border border-[#404040] text-center text-3xl focus:border-[#f2f2f2]"
+                          className="w-[35px] h-[40px] sm:w-[50px] sm:h-[60px] rounded sm:rounded-md bg-primary outline-none border border-[#404040] text-center text-xl md:text-3xl focus:border-[#f2f2f2]"
                           maxLength="1"
                           type="text"
                           name="4"
                           ref={inputRefs[3]}
                           onFocus={handleFocus}
                           onChange={handleChange}
+                          autoComplete="off"
                         />
                         <input
-                          className="w-[50px] h-[60px] rounded-md bg-primary outline-none border border-[#404040] text-center text-3xl focus:border-[#f2f2f2]"
+                          className="w-[35px] h-[40px] sm:w-[50px] sm:h-[60px] rounded sm:rounded-md bg-primary outline-none border border-[#404040] text-center text-xl md:text-3xl focus:border-[#f2f2f2]"
                           maxLength="1"
                           type="text"
                           name="5"
                           ref={inputRefs[4]}
                           onFocus={handleFocus}
                           onChange={handleChange}
+                          autoComplete="off"
                         />
                         <input
-                          className="w-[50px] h-[60px] rounded-md bg-primary outline-none border border-[#404040] text-center text-3xl focus:border-[#f2f2f2]"
+                          className="w-[35px] h-[40px] sm:w-[50px] sm:h-[60px] rounded sm:rounded-md bg-primary outline-none border border-[#404040] text-center text-xl md:text-3xl focus:border-[#f2f2f2]"
                           maxLength="1"
                           type="text"
                           name="6"
                           ref={inputRefs[5]}
                           onFocus={handleFocus}
                           onChange={handleChange}
+                          autoComplete="off"
                         />
                       </div>
                       <div className="text-center mt-5">
@@ -250,12 +256,12 @@ function OTPForgetPassword() {
                       </div>
                     </form>
                   </div>
-                  <p className="text-sm text-white/[0.7] text-center">
+                  {/* <p className="text-sm text-white/[0.7] text-center">
                     Didn't receive an OTP?{" "}
                     <Link className="text-blue-500 border-b border-blue-500">
                       Resend
                     </Link>
-                  </p>
+                  </p> */}
                   <p className="text-sm text-white/[0.7] text-center">
                     Wrong Email?{" "}
                     <a

@@ -79,11 +79,11 @@ function UpdateProfile() {
   return (
     <>
       <div>
-        <div className="flex flex-col gap-y-4">
+        <div className="flex flex-col gap-y-3 sm:gap-y-5">
           <h1 className="text-white text-lg">Update your Profile</h1>
           <form
             onSubmit={handleSubmit}
-            className="text-white/[0.7] flex flex-col gap-y-5"
+            className="text-white/[0.7] flex flex-col gap-y-3 sm:gap-y-5"
           >
             <div className="relative rounded-full h-60 w-60 border-2 border-[#404040]">
               {data.userImage === "" ? (
@@ -110,7 +110,7 @@ function UpdateProfile() {
                 <div className="rounded-full h-full w-full">
                   <img
                     className="rounded-full h-full w-full"
-                    src={`http://localhost:8000${data.userImage}`}
+                    src={`https://snippetsphere.online${data.userImage}`}
                     alt={data.name}
                   />
                   <label
@@ -132,7 +132,7 @@ function UpdateProfile() {
               )}
             </div>
             <h1>{data.name}</h1>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="headline" className="text-xs">
                 Headline
               </label>
@@ -147,7 +147,7 @@ function UpdateProfile() {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="personalEmail" className="text-xs">
                 Personal Email
               </label>
@@ -160,7 +160,7 @@ function UpdateProfile() {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="websiteUrl" className="text-xs">
                 Website URL
               </label>
@@ -173,7 +173,7 @@ function UpdateProfile() {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="gitHubProfile" className="text-xs">
                 GitHub Profile
               </label>

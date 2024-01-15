@@ -3,15 +3,20 @@ import CollectionLogo from "../../../assets/images/collections-logo.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import DeleteCollection from "./DeleteCollection";
 import UpdateCollection from "./UpdateCollection";
+import { useSelector } from "react-redux";
 
 function CollectionItem({ collection }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
+
+  const authUser = useSelector((state) => state.user.authUser);
+  const { user } = authUser;
+  const {username} = useParams();
 
   const handleClickDeleteOpen = () => {
     setDeleteOpen(true);
@@ -44,11 +49,11 @@ function CollectionItem({ collection }) {
   return (
     <div className="relative bg-secondary rounded-md p-5">
       <div className="flex items-center justify-center">
-        <img src={CollectionLogo} className="h-[150px]" alt="" />
+        <img src={CollectionLogo} className="h-[120px] sm:h-[150px]" alt="" />
       </div>
       <div className="flex justify-between mt-5 text-white items-start">
         <div>
-          <h1 className="mb-5">{collection.name}</h1>
+          <h1 className="mb-3 sm:mb-5">{collection.name}</h1>
           <div>
             <div className="linear-gradient-button">
               <Link
@@ -64,6 +69,7 @@ function CollectionItem({ collection }) {
             </span>
           </div>
         </div>
+        {user && user.user.username === username && (
         <div className="text-5xl flex rotate-180 relative">
           <Menu
             sx={{ mt: "0", ml: "30px" }}
@@ -104,6 +110,7 @@ function CollectionItem({ collection }) {
             ...
           </span>
         </div>
+        )}
       </div>
       <DeleteCollection collection={collection} handleClose={handleDeleteClose} open={deleteOpen} />
       <UpdateCollection collection={collection} handleClose={handleUpdateClose} open={updateOpen} />

@@ -59,10 +59,10 @@ function ForgetPassword() {
     <>
       <div>
         <div className="bg-primary">
-          <div className="px-10 py-14">
+          <div className="md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 py-5">
             <div>
               <div className="relative custom-background w-fit mx-auto">
-                <div className="bg-primary p-8 w-fit rounded-md text-white">
+                <div className="bg-primary p-3 sm:p-5 md:p-8 w-fit rounded-md text-white">
                   <p className="text-sm text-white/[0.7] text-center">
                     We'll send you an OTP to your email
                   </p>
@@ -81,11 +81,11 @@ function ForgetPassword() {
                     <Alert severity="error">{generalError}</Alert>
                   </div>
                 </div>
-                  <h1 className="mt-5 mb-10 text-4xl font-semibold text-center">
+                  <h1 className="mt-3 md:mt-5 mb-5 md:mb-10 text-3xl md:text-4xl font-semibold text-center">
                     Forget Password
                   </h1>
                   <form
-                    className="flex flex-col gap-y-5 w-96 text-white"
+                    className="flex flex-col gap-y-5 sm:w-96 text-white"
                     onSubmit={handleSubmit}
                   >
                     <div>
@@ -96,7 +96,6 @@ function ForgetPassword() {
                         placeholder="Enter your email..."
                         onChange={handleChange}
                         value={data.email}
-                        autoFocus
                       />
                       {errors && <ErrorMsg errors={errors} path="email" />}
                     </div>

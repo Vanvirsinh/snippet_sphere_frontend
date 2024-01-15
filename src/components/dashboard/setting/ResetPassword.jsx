@@ -60,13 +60,13 @@ function ResetPassword() {
   return (
     <>
       <div>
-        <div className="flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-3 sm:gap-y-5">
           <h1 className="text-white text-lg">Reset Password</h1>
           <form
             onSubmit={handleSubmit}
-            className="text-white/[0.7] flex flex-col gap-y-5"
+            className="text-white/[0.7] flex flex-col gap-y-3 sm:gap-y-5"
           >
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="email" className="text-xs">
                 Email
               </label>
@@ -80,7 +80,7 @@ function ResetPassword() {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="password" className="text-xs">
                 Current Password
               </label>
@@ -93,7 +93,7 @@ function ResetPassword() {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="newPassword" className="text-xs">
                 New Password
               </label>
@@ -107,7 +107,7 @@ function ResetPassword() {
               />
               <ErrorMsg errors={errors} path="newPassword" />
             </div>
-            <div className="flex flex-col gap-y-1 w-96">
+            <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="confirmNewPassword" className="text-xs">
                 Confirm New Password
               </label>

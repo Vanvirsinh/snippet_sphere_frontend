@@ -58,3 +58,10 @@
         1px 1px 0 #800080;
     color: #1c1c1c;
 }
+
+/* @media only screen and (max-width: 600px) {
+    .button-gradient, .button-dark {
+        padding: 5px 10px;
+        display: none;
+    }
+} */
