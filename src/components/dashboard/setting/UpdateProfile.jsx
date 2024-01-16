@@ -131,6 +131,7 @@ function UpdateProfile() {
                 </div>
               )}
             </div>
+            <p className="text-xs">*Image size should be less than 1 MB.</p>
             <h1>{data.name}</h1>
             <div className="flex flex-col gap-y-1 sm:w-96">
               <label htmlFor="headline" className="text-xs">

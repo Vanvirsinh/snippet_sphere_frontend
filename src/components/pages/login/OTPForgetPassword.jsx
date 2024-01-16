@@ -135,7 +135,7 @@ function OTPForgetPassword() {
       <div>
         <div className="bg-primary">
           <div className="md:px-10 md:py-14 sm:px-5 sm:py-5 p-3 py-5">
-            <div className="custom-background w-fit mx-auto">
+            <div className="relative custom-background w-fit mx-auto">
               <div className="bg-primary p-3 sm:p-5 md:p-8 w-fit rounded-md text-white">
                 <div className="flex flex-col gap-y-3 md:gap-y-5">
                   <p className="text-sm text-white/[0.7] text-center">
@@ -153,15 +153,19 @@ function OTPForgetPassword() {
                     errors ? "" : "-z-50"
                   } border border-white ease-in duration-700 p-5 pt-20 text-center absolute top-0 left-0 h-full w-full text-red-600 bg-primary/[0.7] p-2 rounded-md`}
                 >
-                  <div>
+                  {errors && <div>
                     <span
                       onClick={closeErrorDialogue}
                       className="cursor-pointer active:scale-90 bg-[#fdeded] p-[3px] pt-[2px] text-primary absolute top-5 right-5 rounded"
                     >
                       <CloseIcon />
                     </span>
-                    <Alert severity="error">{errors}</Alert>
-                  </div>
+                    {
+                      errors.map((err, index) => {
+                        return <Alert key={index} severity="error">{err.msg}</Alert>
+                      })
+                    }
+                  </div>}
                 </div>
                   <h1 className="text-3xl md:text-4xl font-semibold text-center">
                     Confirm your email

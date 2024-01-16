@@ -40,12 +40,20 @@ function SpecificCollection() {
     if (!isLoading && response) {
       if (response.success) {
         setSnippets(response.snippets);
-        setAuthorization(true);
       } else {
         setSnippets([]);
       }
     }
   }, [collectionSpecSnippetsData, isLoading, response]);
+
+  useEffect(() => {
+    const {isLoading, response} = individualCollection;
+    if (!isLoading && response) {
+      if (response.success) {
+        setAuthorization(true);
+      }
+    }
+  }, [individualCollection]);
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
